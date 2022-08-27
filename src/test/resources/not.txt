@@ -1,0 +1,8 @@
+a = 1
+b = 1
+c = 2
+
+if (not a > b)
+{
+    write("a no es mas grande que b")
+}
