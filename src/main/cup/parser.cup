@@ -15,6 +15,19 @@ terminal OPEN_BRACKET;
 terminal CLOSE_BRACKET;
 terminal INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_CONSTANT;
 terminal IDENTIFIER;
+terminal MAY;
+terminal MEN;
+terminal MAY_EQUAL;
+terminal MEN_EQUAL;
+terminal AND;
+terminal OR;
+terminal DISTINCT;
+terminal TRUE_BOOL;
+terminal FALSE_BOOL;
+terminal COMPARATOR;
+terminal NOT;
+terminal INCREMENT;
+terminal DECREMENT;
 
 // Non Terminals
 non terminal sentence;
