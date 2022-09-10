@@ -62,8 +62,8 @@ NumberConstant = {Digit}+
 NumberOptionalConstant = {Digit}*
 
 // DataTypeValues
-FloatConstant = {NumberConstant} {Dot} {NumberOptionalConstant} | {NumberOptionalConstant} {Dot} {NumberConstant}
-IntegerConstant = {NumberConstant}
+FloatConstant = {Sub}? ({NumberConstant} {Dot} {NumberOptionalConstant} | {NumberOptionalConstant} {Dot} {NumberConstant})
+IntegerConstant = {Sub}? {NumberConstant}
 StringConstant =  \"({Letter}|{NumberConstant})*\"
 
 %%
