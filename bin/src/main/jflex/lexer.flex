@@ -43,17 +43,11 @@ CloseBracket = ")"
 Letter = [a-zA-Z]
 Digit = [0-9]
 If = "if"
-Else = "else"
-Begin = "begin"
-End = "end"
-For = "for"
-Equal = "=="
-
 
 WhiteSpace = {LineTerminator} | {Identation}
 Identifier = {Letter} ({Letter}|{Digit})*
 IntegerConstant = {Digit}+
-StringConstant = \"({Letter}|{Digit})*\"
+
 %%
 
 
@@ -73,18 +67,10 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Assig}                                   { return symbol(ParserSym.ASSIG); }
   {OpenBracket}                             { return symbol(ParserSym.OPEN_BRACKET); }
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
-  {Equal}                                   {return symbol((ParserSym.EQUAL));}
 
   /* reserved words */
 
-  {If}                                      { return symbol(ParserSym.IF);}
-  {Else}                                    { return symbol(ParserSym.ELSE);}
-  {Begin}                                   { return symbol(ParserSym.BEGIN);}
-  {End}                                     { return symbol(ParserSym.END);}
-  {For}                                     { return symbol(ParserSym.FOR);}
-
-
-
+  {If}                                     { return symbol(ParserSym.IF); }
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }

@@ -12,7 +12,6 @@ import java.io.Reader;
 public final class Compiler {
 
     private Compiler(){}
-
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Filename must be provided as argument.");

@@ -16,11 +16,6 @@ terminal CLOSE_BRACKET;
 terminal INTEGER_CONSTANT;
 terminal IDENTIFIER;
 terminal IF;
-terminal ELSE;
-terminal FOR;
-terminal BEGIN;
-terminal END;
-terminal EQUAL;
 
 // Non Terminals
 non terminal sentence;
@@ -29,14 +24,11 @@ non terminal expression;
 non terminal term;
 non terminal factor;
 non terminal _sentence;
-non terminal conditional;
-non terminal condition;
 
 // Start Symbol Definition
 start with sentence;
 
-sentence ::= _sentence {:System.out.println("End"); :};
-
+sentence ::= _sentence {:System.out.println("End"); :}
 _sentence ::= assignment {: System.out.println("No end"); :};
 assignment ::= IDENTIFIER ASSIG expression {: System.out.println("Assignment"); :};
 expression ::= expression PLUS term {: System.out.println("+"); :};
@@ -48,9 +40,3 @@ term ::= factor {: System.out.println("Term = factor"); :};
 factor ::= IDENTIFIER:id  {: System.out.println("Id: " + id); :};
 factor ::= INTEGER_CONSTANT:constant {: System.out.println("Constant: " + constant ); :};
 factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
-
-_sentence ::= IF conditional {: System.out.println("if"); :};
-conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("conditional"); :};
-condition ::= factor EQUAL factor {: System.out.println("condition equal"); :};
-
-
