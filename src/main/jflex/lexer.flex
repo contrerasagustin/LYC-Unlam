@@ -42,10 +42,17 @@ OpenBracket = "("
 CloseBracket = ")"
 Letter = [a-zA-Z]
 Digit = [0-9]
+Dot = "."
 
 WhiteSpace = {LineTerminator} | {Identation}
 Identifier = {Letter} ({Letter}|{Digit})*
-IntegerConstant = {Digit}+
+NumberConstant = {Digit}+
+NumberOptionalConstant = {Digit}*
+
+// DataTypeValues
+FloatConstant = {NumberConstant} {Dot} {NumberOptionalConstant} | {NumberOptionalConstant} {Dot} {NumberConstant}
+IntegerConstant = {NumberConstant}
+StringConstant =  \"({Letter}|{NumberConstant})*\"
 
 %%
 
