@@ -13,7 +13,7 @@ terminal MULT;
 terminal DIV;
 terminal OPEN_BRACKET;
 terminal CLOSE_BRACKET;
-terminal INTEGER_CONSTANT;
+terminal INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_CONSTANT;
 terminal IDENTIFIER;
 
 // Non Terminals

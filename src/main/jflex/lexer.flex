@@ -119,7 +119,7 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
 
   {StringConstant}                           {
                                              final String stringConstant = new String(yytext());
-                                             if (stringConstant - 2 <= STRING_RANGE)
+                                             if (stringConstant.length() - 2 <= STRING_RANGE)
                                                  return symbol(ParserSym.STRING_CONSTANT);
 
                                              String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un string. (Se obtuvo una cadena de tamaño" + stringConstant.length() + ", maximo permitido: " + STRING_RANGE + ")";
