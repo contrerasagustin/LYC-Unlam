@@ -84,7 +84,7 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
                                              if(!isValidNegativeRange)
                                                  errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los flotantes. (Se obtuvo " + floatConstantValue + ", mínimo permitido: " + FLOAT_RANGE_NEG + ")";
 
-                                             throw new InvalidLengthException(errorMessage);
+                                             throw new InvalidFloatException(errorMessage);
                                              }
 
   {IntegerConstant}                           {

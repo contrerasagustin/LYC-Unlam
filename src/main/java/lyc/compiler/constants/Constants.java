@@ -12,4 +12,5 @@ public final class Constants {
     public static final int  FLOAT_RANGE_POS = RANGE_THIRTY_TWO_BITS - 1;
 
     public static final int STRING_RANGE = 40;
+    public static final String EMPTY_STRING = "";
 }
