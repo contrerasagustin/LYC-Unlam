@@ -3,7 +3,7 @@ package lyc.compiler;
 import java_cup.runtime.Symbol;
 import lyc.compiler.ParserSym;
 import lyc.compiler.model.*;
-import static lyc.compiler.constants.Constants.*;
+import java.math.BigInteger;import static lyc.compiler.constants.Constants.*;
 
 %%
 
@@ -20,18 +20,6 @@ import static lyc.compiler.constants.Constants.*;
 
 
 %{
-    // Ints of 16 bits -> From −32768 to 32767
-    int RANGE_SIXTEEN_BITS = (int)  (Math.pow(2, 16));
-    int INT_RANGE_NEG = RANGE_SIXTEEN_BITS * -1;
-    int INT_RANGE_POS = RANGE_SIXTEEN_BITS - 1;
-
-    // Floats of 32 bits -> From -2147483648 to 2147483647
-    int RANGE_THIRTY_TWO_BITS = (int)  (Math.pow(2, 32));
-    int FLOAT_RANGE_NEG = RANGE_THIRTY_TWO_BITS * -1;
-    int FLOAT_RANGE_POS = RANGE_THIRTY_TWO_BITS - 1;
-
-    int STRING_RANGE = 40;
-
   private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);
   }
@@ -96,37 +84,32 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
                                              if(!isValidNegativeRange)
                                                  errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los flotantes. (Se obtuvo " + floatConstantValue + ", mínimo permitido: " + FLOAT_RANGE_NEG + ")";
 
-                                             System.err.println(errorMessage);
-                                             System.in.read();
-                                             throw new Error(errorMessage);
+                                             throw new InvalidLengthException(errorMessage);
                                              }
 
   {IntegerConstant}                           {
-                                             final Integer integerConstantValue = Integer.parseInt(yytext());
-                                             final boolean isValidPositiveRange = integerConstantValue <= INT_RANGE_POS;
-                                             final boolean isValidNegativeRange = integerConstantValue >= INT_RANGE_NEG;
-                                             if (isValidPositiveRange && isValidNegativeRange)
-                                                 return symbol(ParserSym.INTEGER_CONSTANT);
+                                               final BigInteger integerConstantValue = new BigInteger(yytext());
+                                               final boolean isValidPositiveRange = integerConstantValue.compareTo(BigInteger.valueOf(INT_RANGE_POS)) != 1;
+                                               final boolean isValidNegativeRange = integerConstantValue.compareTo(BigInteger.valueOf(INT_RANGE_NEG)) != -1;
 
-                                             String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", maximo permitido: " + INT_RANGE_POS + ")";
-                                             if(!isValidNegativeRange)
-                                                 errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", mínimo permitido: " + INT_RANGE_NEG + ")";
+                                               if (isValidPositiveRange && isValidNegativeRange)
+                                                   return symbol(ParserSym.INTEGER_CONSTANT);
 
-                                             System.err.println(errorMessage);
-                                             System.in.read();
-                                             throw new Error(errorMessage);
-                                             }
+                                               String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", maximo permitido: " + INT_RANGE_POS + ")";
+                                               if(!isValidNegativeRange)
+                                                   errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", mínimo permitido: " + INT_RANGE_NEG + ")";
+
+                                               throw new InvalidIntegerException(errorMessage);
+                                               }
 
   {StringConstant}                           {
                                              final String stringConstant = new String(yytext());
                                              if (stringConstant.length() - 2 <= STRING_RANGE)
                                                  return symbol(ParserSym.STRING_CONSTANT);
 
-                                             String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un string. (Se obtuvo una cadena de tamaño" + stringConstant.length() + ", maximo permitido: " + STRING_RANGE + ")";
+                                             String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un string. (Se obtuvo una cadena de tamaño " + stringConstant.length() + ", maximo permitido: " + STRING_RANGE + ")";
 
-                                             System.err.println(errorMessage);
-                                             System.in.read();
-                                             throw new Error(errorMessage);
+                                             throw new InvalidLengthException(errorMessage);
                                              }
 
   /* whitespace */

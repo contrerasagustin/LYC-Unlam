@@ -14,16 +14,14 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static com.google.common.truth.Truth.assertThat;
-import static lyc.compiler.constants.Constants.MAX_LENGTH;
+import static lyc.compiler.constants.Constants.STRING_RANGE;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
-@Disabled
 public class LexerTest {
 
   private Lexer lexer;
 
-
+@Disabled
   @Test
   public void comment() throws Exception{
     scan("/*This is a comment*/");
@@ -38,6 +36,7 @@ public class LexerTest {
     });
   }
 
+  @Disabled
   @Test
   public void invalidIdLength() {
     assertThrows(InvalidLengthException.class, () -> {
@@ -65,7 +64,7 @@ public class LexerTest {
 
   @Test
   public void assignmentWithExpressions() throws Exception {
-    scan("c=d*(e-21)/4");
+    scan("c = d * ( e - 21 ) / 4");
     assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
     assertThat(nextToken()).isEqualTo(ParserSym.ASSIG);
     assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
@@ -105,7 +104,7 @@ public class LexerTest {
     return new RandomStringGenerator.Builder()
             .filteredBy(CharacterPredicates.LETTERS)
             .withinRange('a', 'z')
-            .build().generate(MAX_LENGTH * 2);
+            .build().generate(STRING_RANGE * 2);
   }
 
 }
