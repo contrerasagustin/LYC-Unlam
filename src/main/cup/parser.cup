@@ -17,6 +17,18 @@ terminal PLUS;
 terminal SUB;
 terminal MULT;
 terminal DIV;
+terminal HIGHER;
+terminal LOWER;
+terminal HIGHER_EQUAL;
+terminal LOWER_EQUAL;
+terminal AND;
+terminal OR;
+terminal DISTINCT;
+terminal TRUE_BOOL;
+terminal FALSE_BOOL;
+terminal NOT;
+terminal INCREMENT;
+terminal DECREMENT;
 terminal OPEN_BRACKET;
 terminal CLOSE_BRACKET;
 terminal INTEGER_CONSTANT;
@@ -31,6 +43,7 @@ non terminal factor;
 non terminal _sentence;
 non terminal conditional;
 non terminal condition;
+non terminal operator;
 
 // Start Symbol Definition
 start with sentence;
@@ -51,6 +64,9 @@ factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor =
 
 _sentence ::= IF conditional {: System.out.println("if"); :};
 conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("conditional"); :};
-condition ::= factor EQUAL factor {: System.out.println("condition equal"); :};
+condition ::= factor operator factor {: System.out.println("conditio"); :};
+operator ::= EQUAL {: System.out.println("equal"); :};
+operator ::= HIGHER {: System.out.println("equal"); :};
+
 
 

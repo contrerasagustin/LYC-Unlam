@@ -42,6 +42,18 @@ Mult = "*"
 Sub = "-"
 Div = "/"
 Assig = ":="
+Higher = ">>"
+Lower = "<<"
+HigherEqual = ">="
+LowerEqual = "<="
+And = "AND"
+Or = "OR"
+Not = "NOT"
+Distinct  = "!="
+True_Bool = "TRUE"
+False_Bool = "FALSE"
+Increment = ":+"
+Decrement = ":-"
 OpenBracket = "("
 CloseBracket = ")"
 Letter = [a-zA-Z]
@@ -58,9 +70,9 @@ StringConstant = \"({Letter}|{Digit})*\"
 
 <YYINITIAL> {
   /* identifiers */
-  {Identifier}                             { return symbol(ParserSym.IDENTIFIER, yytext()); }
+  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
   /* Constants */
-  {IntegerConstant}                        { return symbol(ParserSym.INTEGER_CONSTANT, yytext()); }
+  {IntegerConstant}                         { return symbol(ParserSym.INTEGER_CONSTANT, yytext()); }
 
   /* operators */
   {Plus}                                    { return symbol(ParserSym.PLUS); }
@@ -71,6 +83,19 @@ StringConstant = \"({Letter}|{Digit})*\"
   {OpenBracket}                             { return symbol(ParserSym.OPEN_BRACKET); }
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
   {Equal}                                   {return symbol((ParserSym.EQUAL));}
+  {Higher}                                  {return symbol((ParserSym.HIGHER));}
+  {Lower}                                   {return symbol((ParserSym.LOWER));}
+  {HigherEqual}                             {return symbol((ParserSym.HIGHER_EQUAL));}
+  {LowerEqual}                              {return symbol((ParserSym.LOWER_EQUAL));}
+  {And}                                     {return symbol((ParserSym.AND));}
+  {Or}                                      {return symbol((ParserSym.OR));}
+  {Not}                                     {return symbol((ParserSym.NOT));}
+  {Distinct}                                {return symbol((ParserSym.DISTINCT));}
+  {True_Bool}                               {return symbol((ParserSym.TRUE_BOOL));}
+  {False_Bool}                              {return symbol((ParserSym.FALSE_BOOL));}
+  {Increment}                               {return symbol((ParserSym.INCREMENT));}
+  {Decrement}                               {return symbol((ParserSym.DECREMENT));}
+
 
   /* reserved words */
 
