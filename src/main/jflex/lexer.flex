@@ -18,7 +18,6 @@ import static lyc.compiler.constants.Constants.*;
   return symbol(ParserSym.EOF);
 %eofval}
 
-
 %{
   private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);
@@ -28,11 +27,16 @@ import static lyc.compiler.constants.Constants.*;
   }
 %}
 
-
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 Identation =  [ \t\f]
 
+If = "if"
+Else = "else"
+Begin = "begin"
+End = "end"
+For = "for"
+Equal = "=="
 Plus = "+"
 Mult = "*"
 Sub = "-"
@@ -42,13 +46,6 @@ OpenBracket = "("
 CloseBracket = ")"
 Letter = [a-zA-Z]
 Digit = [0-9]
-If = "if"
-Else = "else"
-Begin = "begin"
-End = "end"
-For = "for"
-Equal = "=="
-
 
 WhiteSpace = {LineTerminator} | {Identation}
 Identifier = {Letter} ({Letter}|{Digit})*

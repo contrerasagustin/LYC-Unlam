@@ -6,6 +6,12 @@ class Parser;
 
 
 // Terminals
+terminal IF;
+terminal ELSE;
+terminal FOR;
+terminal BEGIN;
+terminal END;
+terminal EQUAL;
 terminal ASSIG;
 terminal PLUS;
 terminal SUB;
@@ -15,12 +21,6 @@ terminal OPEN_BRACKET;
 terminal CLOSE_BRACKET;
 terminal INTEGER_CONSTANT;
 terminal IDENTIFIER;
-terminal IF;
-terminal ELSE;
-terminal FOR;
-terminal BEGIN;
-terminal END;
-terminal EQUAL;
 
 // Non Terminals
 non terminal sentence;
