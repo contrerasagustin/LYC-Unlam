@@ -110,7 +110,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.4</version>
         <executions>
           <execution>
             <id>copy-resources</id>
@@ -184,6 +184,7 @@
         <version>1.4.3</version>
         <executions>
           <execution>
+            <?m2e execute onConfiguration,onIncremental?>
             <goals>
               <goal>generate</goal>
             </goals>
@@ -198,6 +199,7 @@
         <version>1.2</version>
         <executions>
           <execution>
+            <?m2e execute onConfiguration,onIncremental?>
             <goals>
               <goal>generate</goal>
             </goals>

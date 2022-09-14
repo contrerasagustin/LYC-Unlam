@@ -18,7 +18,6 @@ import static lyc.compiler.constants.Constants.*;
   return symbol(ParserSym.EOF);
 %eofval}
 
-
 %{
   private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);
@@ -28,16 +27,33 @@ import static lyc.compiler.constants.Constants.*;
   }
 %}
 
-
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 Identation =  [ \t\f]
 
+If = "if"
+Else = "else"
+Begin = "begin"
+End = "end"
+For = "for"
+Equal = "=="
 Plus = "+"
 Mult = "*"
 Sub = "-"
 Div = "/"
-Assig = "="
+Assig = ":="
+Higher = ">>"
+Lower = "<<"
+HigherEqual = ">="
+LowerEqual = "<="
+And = "AND"
+Or = "OR"
+Not = "NOT"
+Distinct  = "!="
+True_Bool = "TRUE"
+False_Bool = "FALSE"
+Increment = ":+"
+Decrement = ":-"
 OpenBracket = "("
 CloseBracket = ")"
 Letter = [a-zA-Z]
@@ -46,7 +62,7 @@ Digit = [0-9]
 WhiteSpace = {LineTerminator} | {Identation}
 Identifier = {Letter} ({Letter}|{Digit})*
 IntegerConstant = {Digit}+
-
+StringConstant = \"({Letter}|{Digit})*\"
 %%
 
 
@@ -54,9 +70,9 @@ IntegerConstant = {Digit}+
 
 <YYINITIAL> {
   /* identifiers */
-  {Identifier}                             { return symbol(ParserSym.IDENTIFIER, yytext()); }
+  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
   /* Constants */
-  {IntegerConstant}                        { return symbol(ParserSym.INTEGER_CONSTANT, yytext()); }
+  {IntegerConstant}                         { return symbol(ParserSym.INTEGER_CONSTANT, yytext()); }
 
   /* operators */
   {Plus}                                    { return symbol(ParserSym.PLUS); }
@@ -66,6 +82,31 @@ IntegerConstant = {Digit}+
   {Assig}                                   { return symbol(ParserSym.ASSIG); }
   {OpenBracket}                             { return symbol(ParserSym.OPEN_BRACKET); }
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
+  {Equal}                                   {return symbol((ParserSym.EQUAL));}
+  {Higher}                                  {return symbol((ParserSym.HIGHER));}
+  {Lower}                                   {return symbol((ParserSym.LOWER));}
+  {HigherEqual}                             {return symbol((ParserSym.HIGHER_EQUAL));}
+  {LowerEqual}                              {return symbol((ParserSym.LOWER_EQUAL));}
+  {And}                                     {return symbol((ParserSym.AND));}
+  {Or}                                      {return symbol((ParserSym.OR));}
+  {Not}                                     {return symbol((ParserSym.NOT));}
+  {Distinct}                                {return symbol((ParserSym.DISTINCT));}
+  {True_Bool}                               {return symbol((ParserSym.TRUE_BOOL));}
+  {False_Bool}                              {return symbol((ParserSym.FALSE_BOOL));}
+  {Increment}                               {return symbol((ParserSym.INCREMENT));}
+  {Decrement}                               {return symbol((ParserSym.DECREMENT));}
+
+
+  /* reserved words */
+
+  {If}                                      { return symbol(ParserSym.IF);}
+  {Else}                                    { return symbol(ParserSym.ELSE);}
+  {Begin}                                   { return symbol(ParserSym.BEGIN);}
+  {End}                                     { return symbol(ParserSym.END);}
+  {For}                                     { return symbol(ParserSym.FOR);}
+
+
+
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
