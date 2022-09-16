@@ -37,6 +37,7 @@ Begin = "begin"
 End = "end"
 For = "for"
 Write = "write"
+Read = "read"
 Equal = "=="
 Plus = "+"
 Mult = "*"
@@ -114,7 +115,7 @@ StringConstant = \"({Letter}|{Digit})*\"
   {End}                                     { return symbol(ParserSym.END);}
   {For}                                     { return symbol(ParserSym.FOR);}
   {Write}                                   { return symbol(ParserSym.WRITE);}
-
+  {Read}                                    { return symbol(ParserSym.READ);}
 
 
   /* whitespace */
