@@ -75,8 +75,7 @@ StringConstant = \"({Letter}|{Digit})*\"
 /* keywords */
 
 <YYINITIAL> {
-  /* identifiers */
-  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
+
   /* Constants */
   {IntegerConstant}                         { return symbol(ParserSym.INTEGER_CONSTANT, yytext()); }
 
@@ -117,6 +116,8 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Write}                                   { return symbol(ParserSym.WRITE);}
   {Read}                                    { return symbol(ParserSym.READ);}
 
+  /* identifiers */
+  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
