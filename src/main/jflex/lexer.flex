@@ -36,6 +36,7 @@ Else = "else"
 Begin = "begin"
 End = "end"
 For = "for"
+Write = "write"
 Equal = "=="
 Plus = "+"
 Mult = "*"
@@ -54,8 +55,12 @@ True_Bool = "TRUE"
 False_Bool = "FALSE"
 Increment = ":+"
 Decrement = ":-"
+Semicolon = ";"
 OpenBracket = "("
 CloseBracket = ")"
+OpenCurlyBracket = "{"
+CloseCurlyBracket = "}"
+
 Letter = [a-zA-Z]
 Digit = [0-9]
 
@@ -82,6 +87,8 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Assig}                                   { return symbol(ParserSym.ASSIG); }
   {OpenBracket}                             { return symbol(ParserSym.OPEN_BRACKET); }
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
+  {OpenCurlyBracket}                        { return symbol(ParserSym.OPEN_CURLY_BRACKET); }
+  {CloseCurlyBracket}                       { return symbol(ParserSym.CLOSE_CURLY_BRACKET); }
   {Equal}                                   {return symbol((ParserSym.EQUAL));}
   {Higher}                                  {return symbol((ParserSym.HIGHER));}
   {Lower}                                   {return symbol((ParserSym.LOWER));}
@@ -95,6 +102,8 @@ StringConstant = \"({Letter}|{Digit})*\"
   {False_Bool}                              {return symbol((ParserSym.FALSE_BOOL));}
   {Increment}                               {return symbol((ParserSym.INCREMENT));}
   {Decrement}                               {return symbol((ParserSym.DECREMENT));}
+  {Semicolon}                               {return symbol((ParserSym.SEMICOLON));}
+
 
 
   /* reserved words */
@@ -104,7 +113,7 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Begin}                                   { return symbol(ParserSym.BEGIN);}
   {End}                                     { return symbol(ParserSym.END);}
   {For}                                     { return symbol(ParserSym.FOR);}
-
+  {Write}                                   { return symbol(ParserSym.WRITE);}
 
 
 
