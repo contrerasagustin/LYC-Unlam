@@ -82,15 +82,8 @@ public class LexerTest {
 
   @Test
   public void random_test()throws  Exception{
-    scan("if ( 123 == 123 )");
-    assertThat(nextToken()).isEqualTo(ParserSym.IF);
-    assertThat(nextToken()).isEqualTo(ParserSym.OPEN_BRACKET);
-    assertThat(nextToken()).isEqualTo(ParserSym.INTEGER_CONSTANT);
-    assertThat(nextToken()).isEqualTo(ParserSym.EQUAL);
-    assertThat(nextToken()).isEqualTo(ParserSym.INTEGER_CONSTANT);
-    assertThat(nextToken()).isEqualTo(ParserSym.CLOSE_BRACKET);
+    scan("!! ASDASD ASDASD AS !!");
     assertThat(nextToken()).isEqualTo(ParserSym.EOF);
-
 //    scan("A >> 10");
 //    assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
 //    assertThat(nextToken()).isEqualTo(ParserSym.HIGHER);

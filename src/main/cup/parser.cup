@@ -12,6 +12,7 @@ terminal FOR;
 terminal BEGIN;
 terminal END;
 terminal EQUAL;
+terminal INIT;
 
 //OPERATORS
 terminal ASSIG;
@@ -83,6 +84,7 @@ _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET EL
 _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET ELSE OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("if"); :};
 conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {: System.out.println("and conditional"); :};
 conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {: System.out.println("and conditional"); :};
+conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
 conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
 condition ::= factor operator factor {: System.out.println("condition"); :};
 operator ::= EQUAL {: System.out.println("equal"); :};
@@ -97,6 +99,8 @@ operator ::= DISTINCT {: System.out.println("distinct"); :};
 
 _sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("read"); :};
 _sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
+
+_sentence ::= INIT OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("read"); :};
 
 
 

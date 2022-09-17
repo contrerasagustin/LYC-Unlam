@@ -38,6 +38,7 @@ End = "end"
 For = "for"
 Write = "write"
 Read = "read"
+Init = "init"
 Equal = "=="
 Plus = "+"
 Mult = "*"
@@ -48,12 +49,12 @@ Higher = ">>"
 Lower = "<<"
 HigherEqual = ">="
 LowerEqual = "<="
-And = "AND"
-Or = "OR"
-Not = "NOT"
+And = "and"
+Or = "or"
+Not = "not"
 Distinct  = "!="
-True_Bool = "TRUE"
-False_Bool = "FALSE"
+True_Bool = "true"
+False_Bool = "false"
 Increment = ":+"
 Decrement = ":-"
 Semicolon = ";"
@@ -115,6 +116,7 @@ StringConstant = \"({Letter}|{Digit})*\"
   {For}                                     { return symbol(ParserSym.FOR);}
   {Write}                                   { return symbol(ParserSym.WRITE);}
   {Read}                                    { return symbol(ParserSym.READ);}
+  {Init}                                    { return symbol(ParserSym.INIT);}
 
   /* identifiers */
   {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
