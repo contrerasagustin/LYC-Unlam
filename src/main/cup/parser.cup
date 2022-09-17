@@ -4,16 +4,49 @@ import java_cup.runtime.*;
 
 class Parser;
 
-
 // Terminals
+//RESERVED WORDS
+terminal IF;
+terminal ELSE;
+terminal FOR;
+terminal BEGIN;
+terminal END;
+terminal EQUAL;
+terminal INIT;
+
+//OPERATORS
 terminal ASSIG;
 terminal PLUS;
 terminal SUB;
 terminal MULT;
 terminal DIV;
+terminal HIGHER;
+terminal LOWER;
+terminal HIGHER_EQUAL;
+terminal LOWER_EQUAL;
+terminal AND;
+terminal OR;
+terminal NOT;
+terminal DISTINCT;
+terminal INCREMENT;
+terminal DECREMENT;
+terminal WRITE;
+terminal READ;
+
+//BOOLEANOS
+terminal TRUE_BOOL;
+terminal FALSE_BOOL;
+
+//MARKS
+terminal SEMICOLON;
 terminal OPEN_BRACKET;
 terminal CLOSE_BRACKET;
+terminal CLOSE_CURLY_BRACKET;
+terminal OPEN_CURLY_BRACKET;
+
+//CONSTANTS
 terminal INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_CONSTANT;
+
 terminal IDENTIFIER;
 
 // Non Terminals
@@ -22,11 +55,18 @@ non terminal assignment;
 non terminal expression;
 non terminal term;
 non terminal factor;
+non terminal _sentence;
+non terminal conditional;
+non terminal condition;
+non terminal operator;
 
 // Start Symbol Definition
 start with sentence;
 
-sentence ::= assignment {: System.out.println("End"); :};
+sentence ::= _sentence {:System.out.println("End"); :};
+
+_sentence ::= assignment SEMICOLON _sentence{: System.out.println("No end"); :};
+_sentence ::= assignment SEMICOLON{: System.out.println("No end"); :};
 assignment ::= IDENTIFIER ASSIG expression {: System.out.println("Assignment"); :};
 expression ::= expression PLUS term {: System.out.println("+"); :};
 expression ::= expression SUB term {: System.out.println("-"); :};
@@ -39,3 +79,27 @@ factor ::= INTEGER_CONSTANT:intConstant {: System.out.println("Constant int: " +
 factor ::= FLOAT_CONSTANT:floatConstant {: System.out.println("Constant float: " + floatConstant ); :};
 factor ::= STRING_CONSTANT:stringConstant {: System.out.println("Constant string: " + stringConstant ); :};
 factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
+
+_sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("if"); :};
+_sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("if"); :};
+_sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET ELSE OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("if"); :};
+_sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET ELSE OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("if"); :};
+conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {: System.out.println("and conditional"); :};
+conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {: System.out.println("and conditional"); :};
+conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
+conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
+condition ::= factor operator factor {: System.out.println("condition"); :};
+operator ::= EQUAL {: System.out.println("equal"); :};
+operator ::= HIGHER {: System.out.println("higher"); :};
+operator ::= LOWER {: System.out.println("lower"); :};
+operator ::= HIGHER_EQUAL {: System.out.println("higher equal"); :};
+operator ::= LOWER_EQUAL {: System.out.println("lower equal"); :};
+operator ::= DISTINCT {: System.out.println("distinct"); :};
+
+
+//_sentence ::= WRITE OPEN_BRACKET STRINGS CLOSE_BRACKET
+
+_sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("read"); :};
+_sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
+
+_sentence ::= INIT OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("read"); :};

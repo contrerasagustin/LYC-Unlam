@@ -3,7 +3,8 @@ package lyc.compiler;
 import java_cup.runtime.Symbol;
 import lyc.compiler.ParserSym;
 import lyc.compiler.model.*;
-import java.math.BigInteger;import static lyc.compiler.constants.Constants.*;
+import java.math.BigInteger;
+import static lyc.compiler.constants.Constants.*;
 
 %%
 
@@ -18,7 +19,6 @@ import java.math.BigInteger;import static lyc.compiler.constants.Constants.*;
   return symbol(ParserSym.EOF);
 %eofval}
 
-
 %{
   private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);
@@ -28,18 +28,42 @@ import java.math.BigInteger;import static lyc.compiler.constants.Constants.*;
   }
 %}
 
-
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 Identation =  [ \t\f]
 
+If = "if"
+Else = "else"
+Begin = "begin"
+End = "end"
+For = "for"
+Write = "write"
+Read = "read"
+Init = "init"
+Equal = "=="
 Plus = "+"
 Mult = "*"
 Sub = "-"
 Div = "/"
-Assig = "="
+Assig = ":="
+Higher = ">>"
+Lower = "<<"
+HigherEqual = ">="
+LowerEqual = "<="
+And = "and"
+Or = "or"
+Not = "not"
+Distinct  = "!="
+True_Bool = "true"
+False_Bool = "false"
+Increment = ":+"
+Decrement = ":-"
+Semicolon = ";"
 OpenBracket = "("
 CloseBracket = ")"
+OpenCurlyBracket = "{"
+CloseCurlyBracket = "}"
+
 Letter = [a-zA-Z]
 Digit = [0-9]
 Dot = "."
@@ -60,9 +84,6 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
 /* keywords */
 
 <YYINITIAL> {
-  /* identifiers */
-  {Identifier}                             { return symbol(ParserSym.IDENTIFIER, yytext()); }
-
   /* operators */
   {Plus}                                    { return symbol(ParserSym.PLUS); }
   {Sub}                                     { return symbol(ParserSym.SUB); }
@@ -71,6 +92,38 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
   {Assig}                                   { return symbol(ParserSym.ASSIG); }
   {OpenBracket}                             { return symbol(ParserSym.OPEN_BRACKET); }
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
+  {OpenCurlyBracket}                        { return symbol(ParserSym.OPEN_CURLY_BRACKET); }
+  {CloseCurlyBracket}                       { return symbol(ParserSym.CLOSE_CURLY_BRACKET); }
+  {Equal}                                   {return symbol((ParserSym.EQUAL));}
+  {Higher}                                  {return symbol((ParserSym.HIGHER));}
+  {Lower}                                   {return symbol((ParserSym.LOWER));}
+  {HigherEqual}                             {return symbol((ParserSym.HIGHER_EQUAL));}
+  {LowerEqual}                              {return symbol((ParserSym.LOWER_EQUAL));}
+  {And}                                     {return symbol((ParserSym.AND));}
+  {Or}                                      {return symbol((ParserSym.OR));}
+  {Not}                                     {return symbol((ParserSym.NOT));}
+  {Distinct}                                {return symbol((ParserSym.DISTINCT));}
+  {True_Bool}                               {return symbol((ParserSym.TRUE_BOOL));}
+  {False_Bool}                              {return symbol((ParserSym.FALSE_BOOL));}
+  {Increment}                               {return symbol((ParserSym.INCREMENT));}
+  {Decrement}                               {return symbol((ParserSym.DECREMENT));}
+  {Semicolon}                               {return symbol((ParserSym.SEMICOLON));}
+
+
+
+  /* reserved words */
+
+  {If}                                      { return symbol(ParserSym.IF);}
+  {Else}                                    { return symbol(ParserSym.ELSE);}
+  {Begin}                                   { return symbol(ParserSym.BEGIN);}
+  {End}                                     { return symbol(ParserSym.END);}
+  {For}                                     { return symbol(ParserSym.FOR);}
+  {Write}                                   { return symbol(ParserSym.WRITE);}
+  {Read}                                    { return symbol(ParserSym.READ);}
+  {Init}                                    { return symbol(ParserSym.INIT);}
+
+  /* identifiers */
+  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
 
   /* DataTypeValues */
   {FloatConstant}                           {
