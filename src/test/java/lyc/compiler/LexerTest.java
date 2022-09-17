@@ -91,15 +91,13 @@ public class LexerTest {
         });
     }
 
-    @Disabled
+    //TODO : Review this
     @Test
     public void random_test() throws Exception {
-        scan("!! ASDASD ASDASD AS !!");
-        assertThat(nextToken()).isEqualTo(ParserSym.EOF);
-//    scan("A >> 10");
-//    assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
-//    assertThat(nextToken()).isEqualTo(ParserSym.HIGHER);
-//    assertThat(nextToken()).isEqualTo(ParserSym.INTEGER_CONSTANT);
+        assertThrows(UnknownCharacterException.class, () -> {
+            scan("!! ASDASD ASDASD AS !!");
+            nextToken();
+        });
     }
 
     @Test
