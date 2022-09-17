@@ -90,15 +90,17 @@ public class LexerTest {
             nextToken();
         });
     }
-  @Test
-  public void random_test()throws  Exception{
-    scan("!! ASDASD ASDASD AS !!");
-    assertThat(nextToken()).isEqualTo(ParserSym.EOF);
+
+    @Disabled
+    @Test
+    public void random_test() throws Exception {
+        scan("!! ASDASD ASDASD AS !!");
+        assertThat(nextToken()).isEqualTo(ParserSym.EOF);
 //    scan("A >> 10");
 //    assertThat(nextToken()).isEqualTo(ParserSym.IDENTIFIER);
 //    assertThat(nextToken()).isEqualTo(ParserSym.HIGHER);
 //    assertThat(nextToken()).isEqualTo(ParserSym.INTEGER_CONSTANT);
-  }
+    }
 
     @Test
     public void validNegativeIntegerConstantMinValuePlusOne() {
