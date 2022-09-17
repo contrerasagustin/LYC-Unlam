@@ -78,7 +78,7 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
                                              final boolean isValidPositiveRange = floatConstantValue <= FLOAT_RANGE_POS;
                                              final boolean isValidNegativeRange = floatConstantValue >= FLOAT_RANGE_NEG;
                                              if (isValidPositiveRange && isValidNegativeRange)
-                                                 return symbol(ParserSym.FLOAT_CONSTANT);
+                                                 return symbol(ParserSym.FLOAT_CONSTANT, yytext());
 
                                              String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los flotantes. (Se obtuvo " + floatConstantValue + ", maximo permitido: " + FLOAT_RANGE_POS + ")";
                                              if(!isValidNegativeRange)
@@ -93,7 +93,7 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
                                                final boolean isValidNegativeRange = integerConstantValue.compareTo(BigInteger.valueOf(INT_RANGE_NEG)) != -1;
 
                                                if (isValidPositiveRange && isValidNegativeRange)
-                                                   return symbol(ParserSym.INTEGER_CONSTANT);
+                                                   return symbol(ParserSym.INTEGER_CONSTANT, yytext());
 
                                                String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", maximo permitido: " + INT_RANGE_POS + ")";
                                                if(!isValidNegativeRange)
@@ -105,7 +105,7 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
   {StringConstant}                           {
                                              final String stringConstant = new String(yytext());
                                              if (stringConstant.length() - 2 <= STRING_RANGE)
-                                                 return symbol(ParserSym.STRING_CONSTANT);
+                                                 return symbol(ParserSym.STRING_CONSTANT, yytext());
 
                                              String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un string. (Se obtuvo una cadena de tamaño " + stringConstant.length() + ", maximo permitido: " + STRING_RANGE + ")";
 
