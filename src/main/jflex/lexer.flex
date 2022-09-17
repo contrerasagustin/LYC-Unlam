@@ -36,6 +36,9 @@ Else = "else"
 Begin = "begin"
 End = "end"
 For = "for"
+Write = "write"
+Read = "read"
+Init = "init"
 Equal = "=="
 Plus = "+"
 Mult = "*"
@@ -46,16 +49,20 @@ Higher = ">>"
 Lower = "<<"
 HigherEqual = ">="
 LowerEqual = "<="
-And = "AND"
-Or = "OR"
-Not = "NOT"
+And = "and"
+Or = "or"
+Not = "not"
 Distinct  = "!="
-True_Bool = "TRUE"
-False_Bool = "FALSE"
+True_Bool = "true"
+False_Bool = "false"
 Increment = ":+"
 Decrement = ":-"
+Semicolon = ";"
 OpenBracket = "("
 CloseBracket = ")"
+OpenCurlyBracket = "{"
+CloseCurlyBracket = "}"
+
 Letter = [a-zA-Z]
 Digit = [0-9]
 
@@ -69,8 +76,7 @@ StringConstant = \"({Letter}|{Digit})*\"
 /* keywords */
 
 <YYINITIAL> {
-  /* identifiers */
-  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
+
   /* Constants */
   {IntegerConstant}                         { return symbol(ParserSym.INTEGER_CONSTANT, yytext()); }
 
@@ -82,6 +88,8 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Assig}                                   { return symbol(ParserSym.ASSIG); }
   {OpenBracket}                             { return symbol(ParserSym.OPEN_BRACKET); }
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
+  {OpenCurlyBracket}                        { return symbol(ParserSym.OPEN_CURLY_BRACKET); }
+  {CloseCurlyBracket}                       { return symbol(ParserSym.CLOSE_CURLY_BRACKET); }
   {Equal}                                   {return symbol((ParserSym.EQUAL));}
   {Higher}                                  {return symbol((ParserSym.HIGHER));}
   {Lower}                                   {return symbol((ParserSym.LOWER));}
@@ -95,6 +103,8 @@ StringConstant = \"({Letter}|{Digit})*\"
   {False_Bool}                              {return symbol((ParserSym.FALSE_BOOL));}
   {Increment}                               {return symbol((ParserSym.INCREMENT));}
   {Decrement}                               {return symbol((ParserSym.DECREMENT));}
+  {Semicolon}                               {return symbol((ParserSym.SEMICOLON));}
+
 
 
   /* reserved words */
@@ -104,9 +114,12 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Begin}                                   { return symbol(ParserSym.BEGIN);}
   {End}                                     { return symbol(ParserSym.END);}
   {For}                                     { return symbol(ParserSym.FOR);}
+  {Write}                                   { return symbol(ParserSym.WRITE);}
+  {Read}                                    { return symbol(ParserSym.READ);}
+  {Init}                                    { return symbol(ParserSym.INIT);}
 
-
-
+  /* identifiers */
+  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
