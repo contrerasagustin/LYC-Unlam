@@ -4,3 +4,11 @@
 /build.xml
 /cup-java-minijava.iml
 git branch -M main
+
+# Eclipse files
+/.settings/*
+.project
+.classpath
+
+# Vs code
+/.vscode/*

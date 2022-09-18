@@ -44,10 +44,10 @@ terminal CLOSE_BRACKET;
 terminal CLOSE_CURLY_BRACKET;
 terminal OPEN_CURLY_BRACKET;
 
-//VARIABLES
-terminal INTEGER_CONSTANT;
-terminal IDENTIFIER;
+//CONSTANTS
+terminal INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_CONSTANT;
 
+terminal IDENTIFIER;
 
 // Non Terminals
 non terminal sentence;
@@ -75,7 +75,9 @@ term ::= term MULT factor {: System.out.println("*"); :};
 term ::= term DIV factor {: System.out.println("/"); :};
 term ::= factor {: System.out.println("Term = factor"); :};
 factor ::= IDENTIFIER:id  {: System.out.println("Id: " + id); :};
-factor ::= INTEGER_CONSTANT:constant {: System.out.println("Constant: " + constant ); :};
+factor ::= INTEGER_CONSTANT:intConstant {: System.out.println("Constant int: " + intConstant ); :};
+factor ::= FLOAT_CONSTANT:floatConstant {: System.out.println("Constant float: " + floatConstant ); :};
+factor ::= STRING_CONSTANT:stringConstant {: System.out.println("Constant string: " + stringConstant ); :};
 factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
 
 _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("if"); :};
@@ -101,6 +103,3 @@ _sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON _sentence{: S
 _sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
 
 _sentence ::= INIT OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("read"); :};
-
-
-
