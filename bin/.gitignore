@@ -1,6 +1,0 @@
-/target/
-/.mvn/
-/.idea/
-/build.xml
-/cup-java-minijava.iml
-git branch -M main

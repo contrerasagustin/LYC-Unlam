@@ -1,1 +1,0 @@
-read(base) /* base es una variable */

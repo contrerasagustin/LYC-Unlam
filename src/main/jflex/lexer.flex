@@ -3,6 +3,7 @@ package lyc.compiler;
 import java_cup.runtime.Symbol;
 import lyc.compiler.ParserSym;
 import lyc.compiler.model.*;
+import java.math.BigInteger;
 import static lyc.compiler.constants.Constants.*;
 
 %%
@@ -36,6 +37,9 @@ Else = "else"
 Begin = "begin"
 End = "end"
 For = "for"
+Write = "write"
+Read = "read"
+Init = "init"
 Equal = "=="
 Plus = "+"
 Mult = "*"
@@ -46,34 +50,40 @@ Higher = ">>"
 Lower = "<<"
 HigherEqual = ">="
 LowerEqual = "<="
-And = "AND"
-Or = "OR"
-Not = "NOT"
+And = "and"
+Or = "or"
+Not = "not"
 Distinct  = "!="
-True_Bool = "TRUE"
-False_Bool = "FALSE"
+True_Bool = "true"
+False_Bool = "false"
 Increment = ":+"
 Decrement = ":-"
+Semicolon = ";"
 OpenBracket = "("
 CloseBracket = ")"
+OpenCurlyBracket = "{"
+CloseCurlyBracket = "}"
+
 Letter = [a-zA-Z]
 Digit = [0-9]
+Dot = "."
 
 WhiteSpace = {LineTerminator} | {Identation}
 Identifier = {Letter} ({Letter}|{Digit})*
-IntegerConstant = {Digit}+
-StringConstant = \"({Letter}|{Digit})*\"
+NumberConstant = {Digit}+
+NumberOptionalConstant = {Digit}*
+
+// DataTypeValues
+FloatConstant = {Sub}? ({NumberConstant} {Dot} {NumberOptionalConstant} | {NumberOptionalConstant} {Dot} {NumberConstant})
+IntegerConstant = {Sub}? {NumberConstant}
+StringConstant =  \"({Letter}|{NumberConstant})*\"
+
 %%
 
 
 /* keywords */
 
 <YYINITIAL> {
-  /* identifiers */
-  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
-  /* Constants */
-  {IntegerConstant}                         { return symbol(ParserSym.INTEGER_CONSTANT, yytext()); }
-
   /* operators */
   {Plus}                                    { return symbol(ParserSym.PLUS); }
   {Sub}                                     { return symbol(ParserSym.SUB); }
@@ -82,6 +92,8 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Assig}                                   { return symbol(ParserSym.ASSIG); }
   {OpenBracket}                             { return symbol(ParserSym.OPEN_BRACKET); }
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
+  {OpenCurlyBracket}                        { return symbol(ParserSym.OPEN_CURLY_BRACKET); }
+  {CloseCurlyBracket}                       { return symbol(ParserSym.CLOSE_CURLY_BRACKET); }
   {Equal}                                   {return symbol((ParserSym.EQUAL));}
   {Higher}                                  {return symbol((ParserSym.HIGHER));}
   {Lower}                                   {return symbol((ParserSym.LOWER));}
@@ -95,6 +107,8 @@ StringConstant = \"({Letter}|{Digit})*\"
   {False_Bool}                              {return symbol((ParserSym.FALSE_BOOL));}
   {Increment}                               {return symbol((ParserSym.INCREMENT));}
   {Decrement}                               {return symbol((ParserSym.DECREMENT));}
+  {Semicolon}                               {return symbol((ParserSym.SEMICOLON));}
+
 
 
   /* reserved words */
@@ -104,9 +118,52 @@ StringConstant = \"({Letter}|{Digit})*\"
   {Begin}                                   { return symbol(ParserSym.BEGIN);}
   {End}                                     { return symbol(ParserSym.END);}
   {For}                                     { return symbol(ParserSym.FOR);}
+  {Write}                                   { return symbol(ParserSym.WRITE);}
+  {Read}                                    { return symbol(ParserSym.READ);}
+  {Init}                                    { return symbol(ParserSym.INIT);}
 
+  /* identifiers */
+  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
 
+  /* DataTypeValues */
+  {FloatConstant}                           {
+                                             final Double floatConstantValue = Double.parseDouble(yytext());
+                                             final boolean isValidPositiveRange = floatConstantValue <= FLOAT_RANGE_POS;
+                                             final boolean isValidNegativeRange = floatConstantValue >= FLOAT_RANGE_NEG;
+                                             if (isValidPositiveRange && isValidNegativeRange)
+                                                 return symbol(ParserSym.FLOAT_CONSTANT, yytext());
 
+                                             String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los flotantes. (Se obtuvo " + floatConstantValue + ", maximo permitido: " + FLOAT_RANGE_POS + ")";
+                                             if(!isValidNegativeRange)
+                                                 errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los flotantes. (Se obtuvo " + floatConstantValue + ", mínimo permitido: " + FLOAT_RANGE_NEG + ")";
+
+                                             throw new InvalidFloatException(errorMessage);
+                                             }
+
+  {IntegerConstant}                           {
+                                               final BigInteger integerConstantValue = new BigInteger(yytext());
+                                               final boolean isValidPositiveRange = integerConstantValue.compareTo(BigInteger.valueOf(INT_RANGE_POS)) != 1;
+                                               final boolean isValidNegativeRange = integerConstantValue.compareTo(BigInteger.valueOf(INT_RANGE_NEG)) != -1;
+
+                                               if (isValidPositiveRange && isValidNegativeRange)
+                                                   return symbol(ParserSym.INTEGER_CONSTANT, yytext());
+
+                                               String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", maximo permitido: " + INT_RANGE_POS + ")";
+                                               if(!isValidNegativeRange)
+                                                   errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", mínimo permitido: " + INT_RANGE_NEG + ")";
+
+                                               throw new InvalidIntegerException(errorMessage);
+                                               }
+
+  {StringConstant}                           {
+                                             final String stringConstant = new String(yytext());
+                                             if (stringConstant.length() - 2 <= STRING_RANGE)
+                                                 return symbol(ParserSym.STRING_CONSTANT, yytext());
+
+                                             String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un string. (Se obtuvo una cadena de tamaño " + stringConstant.length() + ", maximo permitido: " + STRING_RANGE + ")";
+
+                                             throw new InvalidLengthException(errorMessage);
+                                             }
 
   /* whitespace */
   {WhiteSpace}                   { /* ignore */ }
