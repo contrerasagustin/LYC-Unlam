@@ -53,7 +53,6 @@ terminal IDENTIFIER;
 non terminal sentence;
 non terminal assignment;
 non terminal COMMENT;
-non terminal NESTED_COMMENT;
 non terminal expression;
 non terminal term;
 non terminal factor;
