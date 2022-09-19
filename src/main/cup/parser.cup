@@ -40,6 +40,8 @@ terminal WHILE;
 terminal SWITCH;
 terminal CASE;
 terminal DEFAULT;
+terminal ALLEQUAL;
+terminal REPEAT;
 
 
 //OPERATORS
@@ -71,6 +73,8 @@ terminal OPEN_BRACKET;
 terminal CLOSE_BRACKET;
 terminal CLOSE_CURLY_BRACKET;
 terminal OPEN_CURLY_BRACKET;
+terminal OPEN_SQUARE_BRACKET;
+terminal CLOSE_SQUARE_BRACKET;
 
 //CONSTANTS
 terminal INTEGER_CONSTANT, FLOAT_CONSTANT, STRING_CONSTANT;
@@ -96,6 +100,8 @@ non terminal initialization;
 non terminal constant;
 non terminal cases;
 non terminal defaults;
+non terminal component;
+non terminal subcomponent;
 
 // Start Symbol Definition
 start with sentence;
@@ -199,3 +205,13 @@ cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET
 cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET cases {: System.out.println("case"); :};
 cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET defaults {: System.out.println("case"); :};
 defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET {: System.out.println("case"); :};
+
+_sentence ::= ALLEQUAL OPEN_BRACKET component CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("allequal"); :};
+_sentence ::= ALLEQUAL OPEN_BRACKET component CLOSE_BRACKET SEMICOLON {: System.out.println("allequal"); :};
+component ::= OPEN_SQUARE_BRACKET subcomponent CLOSE_SQUARE_BRACKET COMMA component{: System.out.println("component"); :};
+component ::= OPEN_SQUARE_BRACKET subcomponent CLOSE_SQUARE_BRACKET{: System.out.println("component"); :};
+subcomponent ::= expression COMMA subcomponent {: System.out.println("multiple subcomponent"); :};
+subcomponent ::= expression {: System.out.println("single subcomponent"); :};
+
+_sentence ::= REPEAT INTEGER_CONSTANT OPEN_BRACKET _sentence CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("repeat inline"); :};
+_sentence ::= REPEAT INTEGER_CONSTANT OPEN_BRACKET _sentence CLOSE_BRACKET SEMICOLON{: System.out.println("repeat inline"); :};

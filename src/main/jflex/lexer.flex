@@ -47,6 +47,8 @@ Int = "Int"
 Switch = "switch"
 Case = "case"
 Default = "default"
+Allequal = "allequal"
+Repeat = "repeat"
 Equal = "=="
 Plus = "+"
 Mult = "*"
@@ -72,6 +74,8 @@ OpenBracket = "("
 CloseBracket = ")"
 OpenCurlyBracket = "{"
 CloseCurlyBracket = "}"
+OpenSquareBracket = "["
+CloseSquareBracket = "]"
 
 Letter = [a-zA-Z]
 Digit = [0-9]
@@ -122,6 +126,8 @@ StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
   {Semicolon}                               {return symbol((ParserSym.SEMICOLON));}
   {TwoDots}                                 {return symbol((ParserSym.TWODOTS));}
   {Comma}                                   {return symbol((ParserSym.COMMA));}
+  {OpenSquareBracket}                       {return symbol((ParserSym.OPEN_SQUARE_BRACKET));}
+  {CloseSquareBracket}                      {return symbol((ParserSym.CLOSE_SQUARE_BRACKET));}
 
 
 
@@ -142,6 +148,8 @@ StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
   {Switch}                                  { return symbol(ParserSym.SWITCH);}
   {Case}                                    { return symbol(ParserSym.CASE);}
   {Default}                                 { return symbol(ParserSym.DEFAULT);}
+  {Allequal}                                { return symbol(ParserSym.ALLEQUAL);}
+  {Repeat}                                  { return symbol(ParserSym.REPEAT);}
 
   {Comment}	                                { /* do nothing */ }
 
