@@ -48,6 +48,16 @@ public class ParserTest {
     }
 
     @Test
+    void allequal() throws Exception {
+        compilationSuccessful(readFromFile("allequal.txt"));
+    }
+
+    @Test
+    void repeat() throws Exception {
+        compilationSuccessful(readFromFile("repeat.txt"));
+    }
+
+    @Test
     void read() throws Exception {
         compilationSuccessful(readFromFile("read.txt"));
     }
