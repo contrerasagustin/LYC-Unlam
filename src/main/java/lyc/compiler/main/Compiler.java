@@ -19,9 +19,9 @@ public final class Compiler {
         }
 
         try (Reader reader = FileFactory.create(args[0])) {
-            Parser parser = ParserFactory.create(reader);
+            final Parser parser = ParserFactory.create(reader);
             parser.parse();
-            FileOutputWriter.writeOutput("symbol-table.txt", new SymbolTableGenerator());
+            FileOutputWriter.writeOutput("symbol-table.txt", new SymbolTableGenerator(parser.getSymbolList()));
             FileOutputWriter.writeOutput("intermediate-code.txt", new SymbolTableGenerator());
             FileOutputWriter.writeOutput("final.asm", new SymbolTableGenerator());
         } catch (IOException e) {

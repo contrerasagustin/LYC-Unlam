@@ -1,8 +1,26 @@
 package lyc.compiler;
 
 import java_cup.runtime.*;
+import lyc.compiler.symbol_table.*;
+import lyc.compiler.symbol_table.Symbol;
+import java.util.List;
+import java.util.ArrayList;
 
 class Parser;
+
+action code
+{:
+     public SymbolTableManager symbolTableManager = new SymbolTableManager();
+     public ArrayList<String> identifiersList = new ArrayList();
+
+
+:}
+parser code
+{:
+    public List<Symbol> getSymbolList() {
+    return action_obj.symbolTableManager.getSymbolList();
+    }
+:}
 
 // Terminals
 //RESERVED WORDS
@@ -104,9 +122,22 @@ term ::= term DIV factor {: System.out.println("/"); :};
 term ::= factor {: System.out.println("Term = factor"); :};
 factor ::= IDENTIFIER:id  {: System.out.println("Id: " + id); :};
 factor ::= constant {: System.out.println("constante"); :};
-constant ::= INTEGER_CONSTANT:intConstant {: System.out.println("Constant int: " + intConstant ); :};
-constant ::= FLOAT_CONSTANT:floatConstant {: System.out.println("Constant float: " + floatConstant ); :};
-constant ::= STRING_CONSTANT:stringConstant {: System.out.println("Constant string: " + stringConstant ); :};
+constant    ::= INTEGER_CONSTANT:intConstant
+            {:
+            symbolTableManager.add("_"+intConstant, null, intConstant.toString(), null);
+            System.out.println("Constant int: " + intConstant );
+            :};
+constant    ::= FLOAT_CONSTANT:floatConstant
+            {:
+            symbolTableManager.add("_"+floatConstant, null, floatConstant.toString(), null);
+             System.out.println("Constant float: " + floatConstant );
+            :};
+constant    ::= STRING_CONSTANT:stringConstant
+            {:
+            final String str = stringConstant.toString().replace("\"", "");
+            symbolTableManager.addStringConstant(null, str, str.length());
+            System.out.println("Constant string: " + stringConstant );
+            :};
 factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
 
 _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("if"); :};
@@ -140,12 +171,31 @@ _sentence ::= initialization _sentence{: System.out.println("initialization"); :
 initialization ::= INIT OPEN_CURLY_BRACKET declaration CLOSE_CURLY_BRACKET{: System.out.println("init"); :};
 declaration ::= name TWODOTS type SEMICOLON declaration{: System.out.println("declaration"); :};
 declaration ::= name TWODOTS type SEMICOLON{: System.out.println("declaration"); :};
-name ::= IDENTIFIER:id{:  System.out.println("Id: " + id); :};
-name ::= IDENTIFIER:id COMMA name{:  System.out.println("Id: " + id); :};
-type ::= INT{: System.out.println("int"); :};
-type ::= FLOAT{: System.out.println("float"); :};
-type ::= STRING{: System.out.println("string"); :};
-
+name        ::= IDENTIFIER:id
+            {:
+            this.identifiersList.add(id.toString());
+            System.out.println("Id: " + id);
+            :};
+name        ::= IDENTIFIER:id COMMA name
+            {:
+            this.identifiersList.add(id.toString());
+            System.out.println("Id: " + id);
+            :};
+type        ::= INT
+            {:
+            symbolTableManager.addIdentifiers(this.identifiersList, DataType.INTEGER);
+            System.out.println("int");
+            :};
+type        ::= FLOAT
+            {:
+            symbolTableManager.addIdentifiers(this.identifiersList, DataType.FLOAT);
+            System.out.println("float");
+            :};
+type ::= STRING
+            {:
+            symbolTableManager.addIdentifiers(this.identifiersList, DataType.STRING);
+            System.out.println("string");
+            :};
 _sentence ::= WHILE conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("while"); :};
 _sentence ::= WHILE conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("while"); :};
 
