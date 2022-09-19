@@ -146,7 +146,15 @@ StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
   {Comment}	                                { /* do nothing */ }
 
   /* identifiers */
-  {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
+  {Identifier}                          {
+                                             final String stringConstant = new String(yytext());
+                                             if (stringConstant.length() <= ID_MAX_LENGTH)
+                                                 return symbol(ParserSym.IDENTIFIER, yytext());
+
+                                             final String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un string. (Se obtuvo una cadena de tamaño " + stringConstant.length() + ", maximo permitido: " + ID_MAX_LENGTH + ")";
+
+                                             throw new InvalidLengthException(errorMessage);
+                                             }
 
   /* DataTypeValues */
   {FloatConstant}                           {
