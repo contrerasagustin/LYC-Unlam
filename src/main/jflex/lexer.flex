@@ -40,6 +40,13 @@ For = "for"
 Write = "write"
 Read = "read"
 Init = "init"
+Float = "Float"
+String = "String"
+While = "while"
+Int = "Int"
+Switch = "switch"
+Case = "case"
+Default = "default"
 Equal = "=="
 Plus = "+"
 Mult = "*"
@@ -59,6 +66,8 @@ False_Bool = "false"
 Increment = ":+"
 Decrement = ":-"
 Semicolon = ";"
+TwoDots = ":"
+Comma = ","
 OpenBracket = "("
 CloseBracket = ")"
 OpenCurlyBracket = "{"
@@ -79,7 +88,7 @@ NumberOptionalConstant = {Digit}*
 // DataTypeValues
 FloatConstant = {Sub}? ({NumberConstant} {Dot} {NumberOptionalConstant} | {NumberOptionalConstant} {Dot} {NumberConstant})
 IntegerConstant = {Sub}? {NumberConstant}
-StringConstant =  \"({Letter}|{NumberConstant})*\"
+StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
 
 %%
 
@@ -111,12 +120,15 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
   {Increment}                               {return symbol((ParserSym.INCREMENT));}
   {Decrement}                               {return symbol((ParserSym.DECREMENT));}
   {Semicolon}                               {return symbol((ParserSym.SEMICOLON));}
+  {TwoDots}                                 {return symbol((ParserSym.TWODOTS));}
+  {Comma}                                   {return symbol((ParserSym.COMMA));}
 
 
 
   /* reserved words */
 
   {If}                                      { return symbol(ParserSym.IF);}
+  {While}                                   { return symbol(ParserSym.WHILE);}
   {Else}                                    { return symbol(ParserSym.ELSE);}
   {Begin}                                   { return symbol(ParserSym.BEGIN);}
   {End}                                     { return symbol(ParserSym.END);}
@@ -124,6 +136,12 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
   {Write}                                   { return symbol(ParserSym.WRITE);}
   {Read}                                    { return symbol(ParserSym.READ);}
   {Init}                                    { return symbol(ParserSym.INIT);}
+  {Float}                                   { return symbol(ParserSym.FLOAT);}
+  {String}                                  { return symbol(ParserSym.STRING);}
+  {Int}                                     { return symbol(ParserSym.INT);}
+  {Switch}                                  { return symbol(ParserSym.SWITCH);}
+  {Case}                                    { return symbol(ParserSym.CASE);}
+  {Default}                                 { return symbol(ParserSym.DEFAULT);}
 
   {Comment}	                                { /* do nothing */ }
 

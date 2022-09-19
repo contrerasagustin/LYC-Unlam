@@ -27,9 +27,10 @@ public class ParserTest {
     }
 
     @Test
-    public void ifWithExpression() throws Exception {
-        compilationSuccessful("if ( 12 == 12)");
+    public void switchtest() throws Exception {
+        compilationSuccessful(readFromFile("switch.txt"));
     }
+
 
     @Test
     public void syntaxError() {
