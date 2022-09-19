@@ -52,8 +52,13 @@ public class ParserTest {
     }
 
     @Test
-    void comment() throws Exception {
-        compilationSuccessful(readFromFile("comment.txt"));
+    void commentWithCode() throws Exception {
+        compilationSuccessful(readFromFile("comment_with_code.txt"));
+    }
+
+    @Test
+    void commentWithNoCode() throws Exception {
+        compilationError(readFromFile("comment_without_code.txt"));
     }
 
     @Test
