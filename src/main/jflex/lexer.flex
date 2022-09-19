@@ -159,7 +159,7 @@ StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
                                              if (stringConstant.length() <= ID_MAX_LENGTH)
                                                  return symbol(ParserSym.IDENTIFIER, yytext());
 
-                                             final String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un string. (Se obtuvo una cadena de tamaño " + stringConstant.length() + ", maximo permitido: " + ID_MAX_LENGTH + ")";
+                                             final String errorMessage = "La constante [" + yytext() + "] excede el largo permitido para un identificador. (Se obtuvo una cadena de tamaño " + stringConstant.length() + ", maximo permitido: " + ID_MAX_LENGTH + ")";
 
                                              throw new InvalidLengthException(errorMessage);
                                              }
