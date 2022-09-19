@@ -1,0 +1,9 @@
+switch (a)
+{
+    case 1:{
+        write ("asd asd ");}
+     case 2:{
+       write ("asd asd ");}
+    default:{
+           write ("asd asd ");}
+}

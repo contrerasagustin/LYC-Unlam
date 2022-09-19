@@ -13,6 +13,16 @@ terminal BEGIN;
 terminal END;
 terminal EQUAL;
 terminal INIT;
+terminal WRITE;
+terminal READ;
+terminal FLOAT;
+terminal INT;
+terminal STRING;
+terminal WHILE;
+terminal SWITCH;
+terminal CASE;
+terminal DEFAULT;
+
 
 //OPERATORS
 terminal ASSIG;
@@ -30,14 +40,14 @@ terminal NOT;
 terminal DISTINCT;
 terminal INCREMENT;
 terminal DECREMENT;
-terminal WRITE;
-terminal READ;
 
 //BOOLEANOS
 terminal TRUE_BOOL;
 terminal FALSE_BOOL;
 
 //MARKS
+terminal COMMA;
+terminal TWODOTS;
 terminal SEMICOLON;
 terminal OPEN_BRACKET;
 terminal CLOSE_BRACKET;
@@ -60,6 +70,14 @@ non terminal _sentence;
 non terminal conditional;
 non terminal condition;
 non terminal operator;
+non terminal write_content;
+non terminal declaration;
+non terminal type;
+non terminal name;
+non terminal initialization;
+non terminal constant;
+non terminal cases;
+non terminal defaults;
 
 // Start Symbol Definition
 start with sentence;
@@ -69,8 +87,8 @@ _sentence ::= COMMENT {:System.out.println("Comment"); :};
 _sentence ::= COMMENT _sentence {:System.out.println("Comment"); :};
 _sentence ::= _sentence COMMENT {:System.out.println("Comment"); :};
 
-_sentence ::= assignment SEMICOLON _sentence{: System.out.println("No end"); :};
-_sentence ::= assignment SEMICOLON{: System.out.println("No end"); :};
+_sentence ::= assignment SEMICOLON _sentence{: System.out.println("Assignment"); :};
+_sentence ::= assignment SEMICOLON{: System.out.println("Assignment"); :};
 assignment ::= IDENTIFIER ASSIG expression {: System.out.println("Assignment"); :};
 expression ::= expression PLUS term {: System.out.println("+"); :};
 expression ::= expression SUB term {: System.out.println("-"); :};
@@ -79,9 +97,10 @@ term ::= term MULT factor {: System.out.println("*"); :};
 term ::= term DIV factor {: System.out.println("/"); :};
 term ::= factor {: System.out.println("Term = factor"); :};
 factor ::= IDENTIFIER:id  {: System.out.println("Id: " + id); :};
-factor ::= INTEGER_CONSTANT:intConstant {: System.out.println("Constant int: " + intConstant ); :};
-factor ::= FLOAT_CONSTANT:floatConstant {: System.out.println("Constant float: " + floatConstant ); :};
-factor ::= STRING_CONSTANT:stringConstant {: System.out.println("Constant string: " + stringConstant ); :};
+factor ::= constant {: System.out.println("constante"); :};
+constant ::= INTEGER_CONSTANT:intConstant {: System.out.println("Constant int: " + intConstant ); :};
+constant ::= FLOAT_CONSTANT:floatConstant {: System.out.println("Constant float: " + floatConstant ); :};
+constant ::= STRING_CONSTANT:stringConstant {: System.out.println("Constant string: " + stringConstant ); :};
 factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
 
 _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("if"); :};
@@ -89,7 +108,7 @@ _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: 
 _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET ELSE OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("if"); :};
 _sentence ::= IF conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET ELSE OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("if"); :};
 conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {: System.out.println("and conditional"); :};
-conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {: System.out.println("and conditional"); :};
+conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {: System.out.println("or conditional"); :};
 conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
 conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
 condition ::= factor operator factor {: System.out.println("condition"); :};
@@ -101,9 +120,32 @@ operator ::= LOWER_EQUAL {: System.out.println("lower equal"); :};
 operator ::= DISTINCT {: System.out.println("distinct"); :};
 
 
-//_sentence ::= WRITE OPEN_BRACKET STRINGS CLOSE_BRACKET
+_sentence ::= WRITE OPEN_BRACKET write_content CLOSE_BRACKET SEMICOLON{: System.out.println("write"); :};
+_sentence ::= WRITE OPEN_BRACKET write_content CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("write"); :};
+write_content ::= IDENTIFIER:id  {: System.out.println("Id: " + id); :};
+write_content ::= STRING_CONSTANT:string_constant  {: System.out.println("String_Constant: " + string_constant); :};
+
 
 _sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("read"); :};
 _sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
 
-_sentence ::= INIT OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("read"); :};
+_sentence ::= initialization{: System.out.println("initialization"); :};
+_sentence ::= initialization _sentence{: System.out.println("initialization"); :};
+initialization ::= INIT OPEN_CURLY_BRACKET declaration CLOSE_CURLY_BRACKET{: System.out.println("init"); :};
+declaration ::= name TWODOTS type SEMICOLON declaration{: System.out.println("declaration"); :};
+declaration ::= name TWODOTS type SEMICOLON{: System.out.println("declaration"); :};
+name ::= IDENTIFIER:id{:  System.out.println("Id: " + id); :};
+name ::= IDENTIFIER:id COMMA name{:  System.out.println("Id: " + id); :};
+type ::= INT{: System.out.println("int"); :};
+type ::= FLOAT{: System.out.println("float"); :};
+type ::= STRING{: System.out.println("string"); :};
+
+_sentence ::= WHILE conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET _sentence{: System.out.println("while"); :};
+_sentence ::= WHILE conditional OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("while"); :};
+
+_sentence ::= SWITCH OPEN_BRACKET IDENTIFIER CLOSE_BRACKET OPEN_CURLY_BRACKET cases CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
+_sentence ::= SWITCH OPEN_BRACKET IDENTIFIER CLOSE_BRACKET OPEN_CURLY_BRACKET cases CLOSE_CURLY_BRACKET _sentence{: System.out.println("switch"); :};
+cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET{: System.out.println("case"); :};
+cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET cases {: System.out.println("case"); :};
+cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET defaults {: System.out.println("case"); :};
+defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET _sentence CLOSE_CURLY_BRACKET {: System.out.println("case"); :};

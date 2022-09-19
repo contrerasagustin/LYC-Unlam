@@ -93,10 +93,8 @@ public class LexerTest {
     //TODO : Review this
     @Test
     public void random_test() throws Exception {
-        assertThrows(UnknownCharacterException.class, () -> {
-            scan("!! ASDASD ASDASD AS !!");
-            nextToken();
-        });
+        scan("/* ASDASD ASDASD AS */");
+        assertThat(nextToken()).isEqualTo(ParserSym.EOF);
     }
 
     @Test
