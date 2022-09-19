@@ -52,6 +52,7 @@ terminal IDENTIFIER;
 // Non Terminals
 non terminal sentence;
 non terminal assignment;
+non terminal COMMENT;
 non terminal expression;
 non terminal term;
 non terminal factor;
@@ -64,6 +65,9 @@ non terminal operator;
 start with sentence;
 
 sentence ::= _sentence {:System.out.println("End"); :};
+_sentence ::= COMMENT {:System.out.println("Comment"); :};
+_sentence ::= COMMENT _sentence {:System.out.println("Comment"); :};
+_sentence ::= _sentence COMMENT {:System.out.println("Comment"); :};
 
 _sentence ::= assignment SEMICOLON _sentence{: System.out.println("No end"); :};
 _sentence ::= assignment SEMICOLON{: System.out.println("No end"); :};

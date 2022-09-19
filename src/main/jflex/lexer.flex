@@ -69,6 +69,9 @@ Digit = [0-9]
 Dot = "."
 
 WhiteSpace = {LineTerminator} | {Identation}
+
+Comment = "/*" ~ "*/"
+
 Identifier = {Letter} ({Letter}|{Digit})*
 NumberConstant = {Digit}+
 NumberOptionalConstant = {Digit}*
@@ -121,6 +124,8 @@ StringConstant =  \"({Letter}|{NumberConstant})*\"
   {Write}                                   { return symbol(ParserSym.WRITE);}
   {Read}                                    { return symbol(ParserSym.READ);}
   {Init}                                    { return symbol(ParserSym.INIT);}
+
+  {Comment}	                                { /* do nothing */ }
 
   /* identifiers */
   {Identifier}                              { return symbol(ParserSym.IDENTIFIER, yytext()); }
