@@ -5,7 +5,6 @@ import lyc.compiler.model.*;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -57,7 +56,6 @@ public class LexerTest {
         });
     }
 
-    @Disabled
     @Test
     public void invalidIdLength() {
         assertThrows(InvalidLengthException.class, () -> {
@@ -256,7 +254,7 @@ public class LexerTest {
     }
 
     private static String getRandomString() {
-        return getRandomString(STRING_RANGE * 2);
+        return getRandomString(ID_MAX_LENGTH * 2);
     }
 
     private static String getRandomString(final int size) {

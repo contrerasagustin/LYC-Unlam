@@ -4,5 +4,6 @@ c := 2;
 
 if (a >> b or c >> b)
 {
-    write("a es mas grande que b o c es mas grande que b");
+    write("a es mas grande que b");
+    write("o c es mas grande que b");
 }

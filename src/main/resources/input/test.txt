@@ -1,2 +1,3 @@
 /*  This is a really good example */
 c := d * ( e - 21 ) / 4;
+someString := "Pepito is angry";
