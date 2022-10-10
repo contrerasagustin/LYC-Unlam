@@ -15,13 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ParserTest {
 
     @Test
-    public void assignmentWithExpression() throws Exception {
-        compilationSuccessful("c := d * ( e - 21 ) /4;");
+    public void myTest() throws Exception {
+        System.out.println("Ejecutando Test");
+        System.out.println("////////////////////////////////////////////");
+        compilationSuccessful(readFromFile("test.txt"));
+        System.out.println("////////////////////////////////////////////");
+        System.out.println("Fin del Test");
     }
 
     @Test
-    public void randomTest() throws Exception {
-        compilationSuccessful(readFromFile("mytest.txt"));
+    public void assignmentWithExpression() throws Exception {
+        compilationSuccessful("c := d * ( e - 21 ) /4;");
     }
 
     @Test
