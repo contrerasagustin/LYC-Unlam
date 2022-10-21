@@ -106,7 +106,9 @@ non terminal constant;
 non terminal cases;
 non terminal cases_block;
 non terminal defaults;
+non terminal component_list;
 non terminal component;
+non terminal subcomponent_list;
 non terminal subcomponent;
 
 // Start Symbol Definition
@@ -210,12 +212,13 @@ cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{: S
 cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET defaults {: System.out.println("case"); :};
 defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {: System.out.println("case"); :};
 //
-//_sentence ::= ALLEQUAL OPEN_BRACKET component CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("allequal"); :};
-//_sentence ::= ALLEQUAL OPEN_BRACKET component CLOSE_BRACKET SEMICOLON {: System.out.println("allequal"); :};
-//component ::= OPEN_SQUARE_BRACKET subcomponent CLOSE_SQUARE_BRACKET COMMA component{: System.out.println("component"); :};
-//component ::= OPEN_SQUARE_BRACKET subcomponent CLOSE_SQUARE_BRACKET{: System.out.println("component"); :};
-//subcomponent ::= expression COMMA subcomponent {: System.out.println("multiple subcomponent"); :};
-//subcomponent ::= expression {: System.out.println("single subcomponent"); :};
+_sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {: System.out.println("allequal"); :};
+component_list ::= component_list COMMA component;
+component_list ::= component;
+component ::= OPEN_SQUARE_BRACKET subcomponent_list CLOSE_SQUARE_BRACKET{: System.out.println("component"); :};
+subcomponent_list ::= subcomponent_list COMMA subcomponent;
+subcomponent_list ::= subcomponent;
+subcomponent ::= expression;
+
 //
-//_sentence ::= REPEAT INTEGER_CONSTANT OPEN_BRACKET _sentence CLOSE_BRACKET SEMICOLON _sentence{: System.out.println("repeat inline"); :};
-//_sentence ::= REPEAT INTEGER_CONSTANT OPEN_BRACKET _sentence CLOSE_BRACKET SEMICOLON{: System.out.println("repeat inline"); :};
+_sentence ::= REPEAT INTEGER_CONSTANT OPEN_BRACKET block CLOSE_BRACKET SEMICOLON{: System.out.println("repeat inline"); :};

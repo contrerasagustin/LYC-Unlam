@@ -1,5 +1,1 @@
-init {
-    a1, a2 : Float;
-    v1, v2, v3 : Int;
-    p1, p2, p3 : String;
-}
+allequal([100,v2*122],[v2,v3]);
