@@ -1,13 +1,14 @@
 package lyc.compiler.polacaInversa;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class PolacaInversaManager {
 
-    private LinkedList<String> lista = new LinkedList<String>();
+    private ArrayList<String> lista = new ArrayList<String>();
 
     public void insertar(String elemento) {
-        lista.push(elemento);
+        lista.add(elemento);
     }
 
     public void mostrar(){

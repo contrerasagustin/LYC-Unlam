@@ -131,19 +131,19 @@ factor ::= constant {: System.out.println("constante"); :};
 constant    ::= INTEGER_CONSTANT:intConstant
             {:
             symbolTableManager.add("_"+intConstant, null, intConstant.toString(), null);
-            polacaInversa.insertar(intConstant.toString());
+//            polacaInversa.insertar(intConstant.toString());
             System.out.println("Constant int: " + intConstant );
             :};
 constant    ::= FLOAT_CONSTANT:floatConstant
             {:
             symbolTableManager.add("_"+floatConstant, null, floatConstant.toString(), null);
-            polacaInversa.insertar(floatConstant.toString());
+//            polacaInversa.insertar(floatConstant.toString());
              System.out.println("Constant float: " + floatConstant );
             :};
 constant    ::= STRING_CONSTANT:stringConstant
             {:
             final String str = stringConstant.toString().replace("\"", "");
-            polacaInversa.insertar(str);
+//            polacaInversa.insertar(str);
             symbolTableManager.addStringConstant(null, str, str.length());
             System.out.println("Constant string: " + stringConstant );
             :};
@@ -164,14 +164,22 @@ operator ::= LOWER_EQUAL {: System.out.println("lower equal"); :};
 operator ::= DISTINCT {: System.out.println("distinct"); :};
 //
 //
-_sentence ::= WRITE OPEN_BRACKET write_content CLOSE_BRACKET SEMICOLON{: System.out.println("write"); :};
-write_content ::= IDENTIFIER:id  {: System.out.println("Id: " + id); :};
-write_content ::= STRING_CONSTANT:string_constant  {: System.out.println("String_Constant: " + string_constant); :};
+_sentence ::= WRITE OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{: System.out.println("write " + id); :};
+_sentence ::= WRITE OPEN_BRACKET STRING_CONSTANT:stringConstant CLOSE_BRACKET SEMICOLON{:
+            final String str = stringConstant.toString().replace("\"", "");
+//            polacaInversa.insertar(str);
+            symbolTableManager.addStringConstant(null, str, str.length());
+            System.out.println("write: " + stringConstant );
+ :};
+
 //
-//ESTO ME HACE RUIDO!!!!!
-_sentence ::= READ OPEN_BRACKET IDENTIFIER CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
-_sentence ::= READ OPEN_BRACKET STRING_CONSTANT:string_constant  CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
-//
+_sentence ::= READ OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
+_sentence ::= READ OPEN_BRACKET STRING_CONSTANT:stringConstant  CLOSE_BRACKET SEMICOLON{:
+            final String str = stringConstant.toString().replace("\"", "");
+//            polacaInversa.insertar(str);
+            symbolTableManager.addStringConstant(null, str, str.length());
+            System.out.println("read: " + stringConstant );
+ :};
 
 
 _sentence ::= initialization{: System.out.println("initialization"); :};
@@ -184,6 +192,7 @@ name_list ::= name;
 name        ::= IDENTIFIER:id
             {:
             this.identifiersList.add(id.toString());
+//            polacaInversa.insertar(id.toString());
             System.out.println("Id: " + id);
             :};
 
