@@ -87,7 +87,6 @@ terminal IDENTIFIER;
 non terminal program;
 non terminal block;
 non terminal assignment;
-non terminal COMMENT;
 non terminal expression;
 non terminal term;
 non terminal factor;
