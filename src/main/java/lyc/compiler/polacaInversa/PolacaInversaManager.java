@@ -13,8 +13,10 @@ public class PolacaInversaManager {
 
     public void mostrar(){
         System.out.println("---MOSTRANDO POLACA INVERSA------");
+        int i = 1;
         for(String celda : lista){
-            System.out.println(celda);
+            System.out.println(i + ") " + celda);
+            i++;
         }
     }
 }
