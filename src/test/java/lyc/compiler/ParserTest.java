@@ -14,11 +14,20 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTest {
 
+//    @Test
+//    public void myTest() throws Exception {
+//        System.out.println("Ejecutando Test");
+//        System.out.println("////////////////////////////////////////////");
+//        compilationSuccessful(readFromFile("test.txt"));
+//        System.out.println("////////////////////////////////////////////");
+//        System.out.println("Fin del Test");
+//    }
+
     @Test
     public void myTest() throws Exception {
-        System.out.println("Ejecutando Test");
+        System.out.println("Ejecutando Test Basico");
         System.out.println("////////////////////////////////////////////");
-        compilationSuccessful(readFromFile("test.txt"));
+        compilationSuccessful(readFromFile("testBasico.txt"));
         System.out.println("////////////////////////////////////////////");
         System.out.println("Fin del Test");
     }

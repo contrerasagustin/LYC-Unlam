@@ -119,31 +119,50 @@ block ::= _sentence;
 
 
 _sentence ::= assignment SEMICOLON{: System.out.println("Assignment"); :};
-assignment ::= IDENTIFIER ASSIG expression {: System.out.println("Assignment"); :};
-expression ::= expression PLUS term {: System.out.println("+"); :};
-expression ::= expression SUB term {: System.out.println("-"); :};
+assignment ::= IDENTIFIER:id ASSIG expression {:
+    System.out.println("Assignment");
+    polacaInversa.insertar(id.toString());
+    polacaInversa.insertar("=");
+  :};
+expression ::= expression PLUS term {:
+    System.out.println("+");
+    polacaInversa.insertar("+");
+:};
+expression ::= expression SUB term {:
+    System.out.println("-");
+    polacaInversa.insertar("-");
+ :};
 expression ::= term {: System.out.println("Expression = Term"); :};
-term ::= term MULT factor {: System.out.println("*"); :};
-term ::= term DIV factor {: System.out.println("/"); :};
+term ::= term MULT factor {:
+    System.out.println("*");
+    polacaInversa.insertar("*");
+ :};
+term ::= term DIV factor {:
+    System.out.println("/");
+    polacaInversa.insertar("/");
+ :};
 term ::= factor {: System.out.println("Term = factor"); :};
-factor ::= IDENTIFIER:id  {: System.out.println("Id: " + id); :};
+factor ::= IDENTIFIER:id  {:
+    System.out.println("Id: " + id);
+    polacaInversa.insertar(id.toString());
+ :};
 factor ::= constant {: System.out.println("constante"); :};
 constant    ::= INTEGER_CONSTANT:intConstant
             {:
             symbolTableManager.add("_"+intConstant, null, intConstant.toString(), null);
-//            polacaInversa.insertar(intConstant.toString());
+            polacaInversa.insertar(intConstant.toString());
             System.out.println("Constant int: " + intConstant );
             :};
 constant    ::= FLOAT_CONSTANT:floatConstant
             {:
             symbolTableManager.add("_"+floatConstant, null, floatConstant.toString(), null);
-//            polacaInversa.insertar(floatConstant.toString());
+            polacaInversa.insertar(floatConstant.toString());
              System.out.println("Constant float: " + floatConstant );
             :};
 constant    ::= STRING_CONSTANT:stringConstant
             {:
             final String str = stringConstant.toString().replace("\"", "");
-//            polacaInversa.insertar(str);
+            polacaInversa.insertar(str);
             symbolTableManager.addStringConstant(null, str, str.length());
             System.out.println("Constant string: " + stringConstant );
             :};
@@ -164,19 +183,29 @@ operator ::= LOWER_EQUAL {: System.out.println("lower equal"); :};
 operator ::= DISTINCT {: System.out.println("distinct"); :};
 //
 //
-_sentence ::= WRITE OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{: System.out.println("write " + id); :};
+_sentence ::= WRITE OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{:
+            polacaInversa.insertar(id.toString());
+            polacaInversa.insertar("WRITE");
+            System.out.println("write " + id);
+ :};
 _sentence ::= WRITE OPEN_BRACKET STRING_CONSTANT:stringConstant CLOSE_BRACKET SEMICOLON{:
             final String str = stringConstant.toString().replace("\"", "");
 //            polacaInversa.insertar(str);
+//            polacaInversa.insertar("WRITE");
             symbolTableManager.addStringConstant(null, str, str.length());
             System.out.println("write: " + stringConstant );
  :};
 
 //
-_sentence ::= READ OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{: System.out.println("read"); :};
+_sentence ::= READ OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{:
+            polacaInversa.insertar(id.toString());
+            polacaInversa.insertar("READ");
+            System.out.println("read");
+ :};
 _sentence ::= READ OPEN_BRACKET STRING_CONSTANT:stringConstant  CLOSE_BRACKET SEMICOLON{:
             final String str = stringConstant.toString().replace("\"", "");
-//            polacaInversa.insertar(str);
+            polacaInversa.insertar(str);
+            polacaInversa.insertar("READ");
             symbolTableManager.addStringConstant(null, str, str.length());
             System.out.println("read: " + stringConstant );
  :};
@@ -192,7 +221,7 @@ name_list ::= name;
 name        ::= IDENTIFIER:id
             {:
             this.identifiersList.add(id.toString());
-//            polacaInversa.insertar(id.toString());
+            polacaInversa.insertar(id.toString());
             System.out.println("Id: " + id);
             :};
 
