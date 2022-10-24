@@ -110,7 +110,7 @@ StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
   {CloseBracket}                            { return symbol(ParserSym.CLOSE_BRACKET); }
   {OpenCurlyBracket}                        { return symbol(ParserSym.OPEN_CURLY_BRACKET); }
   {CloseCurlyBracket}                       { return symbol(ParserSym.CLOSE_CURLY_BRACKET); }
-  {Equal}                                   {return symbol((ParserSym.EQUAL));}
+  {Equal}                                   { return symbol((ParserSym.EQUAL)); }
   {Higher}                                  {return symbol((ParserSym.HIGHER));}
   {Lower}                                   {return symbol((ParserSym.LOWER));}
   {HigherEqual}                             {return symbol((ParserSym.HIGHER_EQUAL));}

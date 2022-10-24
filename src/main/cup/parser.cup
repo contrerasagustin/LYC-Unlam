@@ -180,8 +180,9 @@ conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {: System.out
 conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {: System.out.println("or conditional"); :};
 conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {: System.out.println("single conditional  not"); :};
 conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
+
 condition ::= factor EQUAL factor {:
-    polacaInversa.insertar(":=");
+    polacaInversa.insertar("==");
     polacaInversa.insertar("BNE");
     System.out.println("condition");
  :};
@@ -276,7 +277,10 @@ type ::= STRING
             symbolTableManager.addIdentifiers(this.identifiersList, DataType.STRING);
             System.out.println("string");
             :};
-sentence ::= WHILE conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{: System.out.println("while"); :};
+sentence ::= WHILE conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
+    System.out.println("while");
+    polacaInversa.insertar("JMP");
+    polacaInversa.insertar("UNSTACK");:};
 
 sentence ::= SWITCH OPEN_BRACKET IDENTIFIER CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
 cases_block ::= cases_block cases;

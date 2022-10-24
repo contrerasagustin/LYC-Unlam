@@ -14,9 +14,10 @@ public class PolacaInversaManager {
     public void insertar(String elemento) {
         switch (elemento) {
             case "UNSTACK":
-                String aux = lista.set(pila.pop(),"#"+(lista.size()+1));
+                lista.set(pila.pop()-1,"#"+(lista.size()+1));
                 break;
             case "BLE":
+            case "BNE":
             case "BEQ":
             case "BHI":
             case "BHE":
@@ -24,7 +25,22 @@ public class PolacaInversaManager {
             case "BHG":
                 lista.add(elemento);
                 lista.add("#");
-                pila.add(lista.size() - 1);
+                pila.add(lista.size());
+                break;
+            case "JMP":
+                int auxInt = pila.peek()  - 5;
+                System.out.println("aux int"+ auxInt);
+                lista.add("JMP");
+                while (auxInt != 0){
+                    if(! lista.get(auxInt).contains("#")){
+                        lista.add("#"+(auxInt+1));
+                        break;
+                    }else{
+                        auxInt = pila.peek()  - 5;
+                    }
+                }
+                if(auxInt==0)
+                    lista.add("#1");
                 break;
             default:
                 lista.add(elemento);
