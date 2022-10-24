@@ -30,13 +30,14 @@ public class PolacaInversaManager {
             case "JMP":
                 int auxInt = pila.peek()  - 5;
                 System.out.println("aux int"+ auxInt);
+                System.out.println("lista"+ lista.get(auxInt));
                 lista.add("JMP");
                 while (auxInt != 0){
-                    if(! lista.get(auxInt).contains("#")){
-                        lista.add("#"+(auxInt+1));
+                    if(! lista.get(auxInt-1).contains("#")){
+                        lista.add("#"+(auxInt));
                         break;
                     }else{
-                        auxInt = pila.peek()  - 5;
+                        auxInt = auxInt  - 5;
                     }
                 }
                 if(auxInt==0)
