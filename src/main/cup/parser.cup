@@ -280,12 +280,12 @@ sentence ::= WHILE conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
     polacaInversa.insertar("JMP");
     polacaInversa.insertar("UNSTACK");:};
 
-sentence ::= SWITCH OPEN_BRACKET IDENTIFIER CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
-cases_block ::= cases_block cases;
-cases_block ::= cases;
-cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{: System.out.println("case"); :};
-cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET defaults {: System.out.println("case"); :};
-defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {: System.out.println("case"); :};
+sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
+sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block defaults CLOSE_CURLY_BRACKET  {: System.out.println("switch con default"); :};
+cases_block ::= cases_block cases {:polacaInversa.insertar("UNSTACK"); :};
+cases_block ::= cases {:polacaInversa.insertar("UNSTACK");:} ;
+cases ::= CASE constant {:polacaInversa.insertar("BNE");:} TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{: System.out.println("case"); :};
+defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {: System.out.println("default");:};
 //
 sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {: System.out.println("allequal"); :};
 component_list ::= component_list COMMA component;

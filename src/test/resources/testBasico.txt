@@ -11,10 +11,27 @@ if ( a  ==  11) {
     b := 12;
 }if ( a  ==  11 ) {
      b := 12;
- }*/
+ }
 
 x := 5;
  while ( a == 1) {
     b :=0;
     c := 0;
-     }
+ }
+ */
+
+switch ( a )
+{
+    case 1:{
+        write ("aaa");
+    }
+    case 2:{
+        write ("bbb");
+    }
+    case 3:{
+        write ("ccc");
+    }
+    default:{
+        write ("ddd");
+    }
+}
