@@ -196,8 +196,6 @@ condition ::= factor DISTINCT factor {:
 condition ::= factor HIGHER factor {:
     polacaInversa.insertar(">>");
     polacaInversa.insertar("BLE");
-    //polacaInversa.insertar("saltar #12    (TODO: esto esta hardcodeado por ahora)");      //!!!!!!!!!!!!!!!!!esto eestá hardcodeado a modo de ejemplo, pero habria que hacer que se pueda elegir a que posicion de la polaca inversa tiene que saltar
-
     System.out.println("condition");
  :};
 
