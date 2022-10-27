@@ -298,4 +298,24 @@ subcomponent_list ::= subcomponent;
 subcomponent ::= expression;
 
 //
-sentence ::= REPEAT INTEGER_CONSTANT OPEN_BRACKET block CLOSE_BRACKET SEMICOLON{: System.out.println("repeat inline"); :};
+sentence ::= REPEAT INTEGER_CONSTANT:intConstant {:
+    symbolTableManager.add("_"+intConstant, null, intConstant.toString(), null);
+    polacaInversa.insertar(intConstant.toString());
+    System.out.println("Constant inttt: " + intConstant );
+    polacaInversa.insertar("@aux");
+    polacaInversa.insertar(":=");
+    polacaInversa.insertar("RPT");
+    polacaInversa.insertar("@aux");
+    polacaInversa.insertar("0");
+    polacaInversa.insertar("BNI");
+:} OPEN_BRACKET block CLOSE_BRACKET
+{:
+    polacaInversa.insertar("FRPT");
+    polacaInversa.insertar("@aux");
+    polacaInversa.insertar("1");
+    polacaInversa.insertar("-");
+    polacaInversa.insertar("@aux");
+    polacaInversa.insertar(":=");
+    polacaInversa.insertar("UNSTACK");
+:}
+ SEMICOLON{: System.out.println("repeat inline"); :};
