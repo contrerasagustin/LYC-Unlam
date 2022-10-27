@@ -35,3 +35,6 @@ switch ( a )
         write ("ddd");
     }
 }
+
+repeat 2 (a:=10;);
+

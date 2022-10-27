@@ -23,6 +23,7 @@ public class PolacaInversaManager {
             case "BHE":
             case "BLS":
             case "BHG":
+            case "BNI":
                 lista.add(elemento);
                 lista.add("#");
                 pila.add(lista.size());
