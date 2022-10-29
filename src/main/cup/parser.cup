@@ -203,19 +203,19 @@ condition ::= factor HIGHER factor {:
 
 condition ::= factor HIGHER_EQUAL factor {:
     polacaInversa.insertar(">=");
-    polacaInversa.insertar("BLS");
+    polacaInversa.insertar("BLT");
     System.out.println("condition");
  :};
 
  condition ::= factor LOWER factor {:
     polacaInversa.insertar("<");
-    polacaInversa.insertar("BHE");
+    polacaInversa.insertar("BGE");
     System.out.println("condition");
   :};
 
   condition ::= factor LOWER_EQUAL factor {:
     polacaInversa.insertar("<=");
-    polacaInversa.insertar("BHG");
+    polacaInversa.insertar("BGT");
     System.out.println("condition");
   :};
 
@@ -277,19 +277,25 @@ type ::= STRING
             symbolTableManager.addIdentifiers(this.identifiersList, DataType.STRING);
             System.out.println("string");
             :};
-sentence ::= WHILE conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
-    System.out.println("while");
-    polacaInversa.insertar("JMP");
-    polacaInversa.insertar("UNSTACK");:};
+sentence ::= WHILE {:polacaInversa.insertar("ET");:} conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
+        System.out.println("while");
+        polacaInversa.insertar("WHILE");
+        polacaInversa.insertar("BI");
+        polacaInversa.insertar("UNSTACK");:
+    };
 
-sentence ::= SWITCH OPEN_BRACKET IDENTIFIER CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
 cases_block ::= cases_block cases;
 cases_block ::= cases;
 cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{: System.out.println("case"); :};
 cases ::= CASE constant TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET defaults {: System.out.println("case"); :};
 defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {: System.out.println("case"); :};
 //
-sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {: System.out.println("allequal"); :};
+
+sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {:
+    System.out.println("allequal");
+    polacaInversa.insertar("");
+    :};
+
 component_list ::= component_list COMMA component;
 component_list ::= component;
 component ::= OPEN_SQUARE_BRACKET subcomponent_list CLOSE_SQUARE_BRACKET{: System.out.println("component"); :};
@@ -298,4 +304,3 @@ subcomponent_list ::= subcomponent;
 subcomponent ::= expression;
 
 //
-sentence ::= REPEAT INTEGER_CONSTANT OPEN_BRACKET block CLOSE_BRACKET SEMICOLON{: System.out.println("repeat inline"); :};
