@@ -19,20 +19,19 @@ public class PolacaInversaManager {
             case "BLE":
             case "BNE":
             case "BEQ":
-            case "BHI":
-            case "BHE":
-            case "BLS":
-            case "BHG":
-            case "BNI":
+            case "BGT":
+            case "BLT":
+            case "BGE":
+                lista.add("CMP");
                 lista.add(elemento);
                 lista.add("#");
                 pila.add(lista.size());
                 break;
-            case "JMP":
-                int auxInt = pila.peek()  - 4;
-                System.out.println("aux int "+ auxInt);
-                System.out.println("lista "+ lista.get(auxInt));
-                lista.add("JMP");
+            case "BI":
+                int auxInt = pila.peek()  - 5;
+                System.out.println("aux int"+ auxInt);
+                System.out.println("lista"+ lista.get(auxInt));
+                lista.add("BI");
                 while (auxInt != 0){
                     if(! lista.get(auxInt-1).contains("#")){
                         lista.add("#"+(auxInt));

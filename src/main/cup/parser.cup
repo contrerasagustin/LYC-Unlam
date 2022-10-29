@@ -143,11 +143,14 @@ term ::= term DIV factor {:
     polacaInversa.insertar("/");
  :};
 term ::= factor {: System.out.println("Term = factor"); :};
+
 factor ::= IDENTIFIER:id  {:
     System.out.println("Id: " + id);
     polacaInversa.insertar(id.toString());
  :};
 factor ::= constant {: System.out.println("constante"); :};
+factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
+
 constant    ::= INTEGER_CONSTANT:intConstant
             {:
             symbolTableManager.add("_"+intConstant, null, intConstant.toString(), null);
@@ -167,7 +170,6 @@ constant    ::= STRING_CONSTANT:stringConstant
             symbolTableManager.addStringConstant(null, str, str.length());
             System.out.println("Constant string: " + stringConstant );
             :};
-factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
 
 sentence ::= IF conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
     System.out.println("if");
@@ -182,38 +184,32 @@ conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {: System.out.println("
 conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
 
 condition ::= factor EQUAL factor {:
-    polacaInversa.insertar("==");
     polacaInversa.insertar("BNE");
     System.out.println("condition");
  :};
 
 condition ::= factor DISTINCT factor {:
-    polacaInversa.insertar("!=");
     polacaInversa.insertar("BEQ");
     System.out.println("condition");
  :};
 
 condition ::= factor HIGHER factor {:
-    polacaInversa.insertar(">>");
     polacaInversa.insertar("BLE");
     System.out.println("condition");
  :};
 
 condition ::= factor HIGHER_EQUAL factor {:
-    polacaInversa.insertar(">=");
-    polacaInversa.insertar("BLS");
+    polacaInversa.insertar("BLT");
     System.out.println("condition");
  :};
 
  condition ::= factor LOWER factor {:
-    polacaInversa.insertar("<");
-    polacaInversa.insertar("BHE");
+    polacaInversa.insertar("BGE");
     System.out.println("condition");
   :};
 
   condition ::= factor LOWER_EQUAL factor {:
-    polacaInversa.insertar("<=");
-    polacaInversa.insertar("BHG");
+    polacaInversa.insertar("BGT");
     System.out.println("condition");
   :};
 
@@ -275,10 +271,10 @@ type ::= STRING
             symbolTableManager.addIdentifiers(this.identifiersList, DataType.STRING);
             System.out.println("string");
             :};
-sentence ::= WHILE conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
-    System.out.println("while");
-    polacaInversa.insertar("JMP");
-    polacaInversa.insertar("UNSTACK");:};
+sentence ::= WHILE {:polacaInversa.insertar("ET");:} conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
+        System.out.println("while");
+        polacaInversa.insertar("BI");
+        polacaInversa.insertar("UNSTACK");:};
 
 sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
 sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block defaults CLOSE_CURLY_BRACKET  {: System.out.println("switch con default"); :};
@@ -287,7 +283,12 @@ cases_block ::= cases {:polacaInversa.insertar("UNSTACK");:} ;
 cases ::= CASE constant {:polacaInversa.insertar("BNE");:} TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{: System.out.println("case"); :};
 defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {: System.out.println("default");:};
 //
-sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {: System.out.println("allequal"); :};
+
+sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {:
+    System.out.println("allequal");
+    polacaInversa.insertar("");
+    :};
+
 component_list ::= component_list COMMA component;
 component_list ::= component;
 component ::= OPEN_SQUARE_BRACKET subcomponent_list CLOSE_SQUARE_BRACKET{: System.out.println("component"); :};
