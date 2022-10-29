@@ -306,7 +306,7 @@ sentence ::= REPEAT INTEGER_CONSTANT:intConstant {:
     polacaInversa.insertar("RPT");
     polacaInversa.insertar("@aux");
     polacaInversa.insertar("0");
-    polacaInversa.insertar("BNI");
+    polacaInversa.insertar("BNE");
 :} OPEN_BRACKET block CLOSE_BRACKET
 {:
     polacaInversa.insertar("FRPT");
