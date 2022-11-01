@@ -182,10 +182,10 @@ sentence ::= IF conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET ELSE OP
     System.out.println("if");
     polacaInversa.insertar("UNSTACK");
   :};
-conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {: System.out.println("and conditional"); :};
+conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {: System.out.println("and conditional"); polacaInversa.insertar("AND"); :};
 conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {: System.out.println("or conditional"); :};
 conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {: System.out.println("single conditional  not"); :};
-conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); :};
+conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); polacaInversa.insertar("SINGLE");:};
 
 condition ::= factor EQUAL factor {:
     polacaInversa.insertar("BNE");
@@ -277,8 +277,7 @@ type ::= STRING
             :};
 sentence ::= WHILE {:polacaInversa.insertar("ET");:} conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
         System.out.println("while");
-        polacaInversa.insertar("BI");
-        polacaInversa.insertar("UNSTACK");:};
+        polacaInversa.insertar("BI");:};
 
 sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
 sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block defaults CLOSE_CURLY_BRACKET  {: System.out.println("switch con default"); :};
@@ -290,14 +289,14 @@ defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {: Sys
 
 sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {:
     System.out.println("allequal");
-    polacaInversa.insertar("");
+    polacaInversa.insertar("ALLEQUAL");
     :};
 
 component_list ::= component_list COMMA component;
 component_list ::= component;
-component ::= OPEN_SQUARE_BRACKET subcomponent_list CLOSE_SQUARE_BRACKET{: System.out.println("component"); :};
-subcomponent_list ::= subcomponent_list COMMA subcomponent;
-subcomponent_list ::= subcomponent;
+component ::= OPEN_SQUARE_BRACKET subcomponent_list CLOSE_SQUARE_BRACKET{: System.out.println("component");  :};
+subcomponent_list ::= subcomponent_list COMMA subcomponent{: polacaInversa.insertar("COMPONENT"); :};
+subcomponent_list ::= subcomponent {: polacaInversa.insertar("COMPONENT");:};
 subcomponent ::= expression;
 
 //
