@@ -187,9 +187,9 @@ StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
                                                if (isValidPositiveRange && isValidNegativeRange)
                                                    return symbol(ParserSym.INTEGER_CONSTANT, yytext());
 
-                                               String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", maximo permitido: " + INT_RANGE_POS + ")";
+                                               String errorMessage = "La constante [" + yytext() + "] esta por encima del limite de los enteros. (Se obtuvo " + integerConstantValue + ", maximo permitido: " + INT_RANGE_POS + ")";
                                                if(!isValidNegativeRange)
-                                                   errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los flotantes. (Se obtuvo " + integerConstantValue + ", mínimo permitido: " + INT_RANGE_NEG + ")";
+                                                   errorMessage = "La constante [" + yytext() + "] esta por debajo del limite de los enteros. (Se obtuvo " + integerConstantValue + ", mínimo permitido: " + INT_RANGE_NEG + ")";
 
                                                throw new InvalidIntegerException(errorMessage);
                                                }

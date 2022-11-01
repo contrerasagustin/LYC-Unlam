@@ -22,6 +22,10 @@ parser code
     public List<Symbol> getSymbolList() {
     return action_obj.symbolTableManager.getSymbolList();
     }
+
+    public ArrayList<String> getListaPolacaInversa() {
+        return action_obj.polacaInversa.getLista();
+    }
 :}
 
 // Terminals
@@ -113,7 +117,7 @@ non terminal subcomponent;
 // Start Symbol Definition
 start with program;
 
-program ::= block  {:System.out.println("End");  polacaInversa.mostrar(); :};
+program ::= block  {:System.out.println("End");  /*polacaInversa.mostrar();*/  :};
 block ::= block sentence;
 block ::= sentence;
 

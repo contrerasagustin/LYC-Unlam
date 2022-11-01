@@ -95,37 +95,37 @@ public class LexerTest {
         assertThat(nextToken()).isEqualTo(ParserSym.EOF);
     }
 
-//    @Test
-//    public void validNegativeIntegerConstantMinValuePlusOne() {
-//        assertDoesNotThrow(() -> {
-//            scan("%d".formatted(INT_RANGE_NEG + 1));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validNegativeIntegerConstantValueZero() {
-//        assertDoesNotThrow(() -> {
-//            scan("%d".formatted(0));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validPositiveIntegerConstantMaxValueMinusOne() {
-//        assertDoesNotThrow(() -> {
-//            scan("%d".formatted(INT_RANGE_POS - 1));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validPositiveIntegerConstantMaxValue() {
-//        assertDoesNotThrow(() -> {
-//            scan("%d".formatted(INT_RANGE_POS));
-//            nextToken();
-//        });
-//    }
+    @Test
+    public void validNegativeIntegerConstantMinValuePlusOne() {
+        assertDoesNotThrow(() -> {
+            scan("%d".formatted(INT_RANGE_NEG + 1));
+            nextToken();
+        });
+    }
+
+    @Test
+    public void validNegativeIntegerConstantValueZero() {
+        assertDoesNotThrow(() -> {
+            scan("%d".formatted(0));
+            nextToken();
+        });
+    }
+
+    @Test
+    public void validPositiveIntegerConstantMaxValueMinusOne() {
+        assertDoesNotThrow(() -> {
+            scan("%d".formatted(INT_RANGE_POS - 1));
+            nextToken();
+        });
+    }
+
+    @Test
+    public void validPositiveIntegerConstantMaxValue() {
+        assertDoesNotThrow(() -> {
+            scan("%d".formatted(INT_RANGE_POS));
+            nextToken();
+        });
+    }
 //
 //    @Test
 //    public void invalidPositiveFloatConstantValue() {

@@ -57,4 +57,9 @@ public class PolacaInversaManager {
             i++;
         }
     }
+
+
+    public ArrayList<String> getLista(){
+        return this.lista;
+    }
 }
