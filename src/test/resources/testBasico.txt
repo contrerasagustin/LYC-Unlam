@@ -1,8 +1,1 @@
-b:=0;
-if ( a == 10){
-    while (b <= 10){
-        b:=b+1;
-    }
-}
-repeat 2 (a:=10;);
-
+allequal([2],[b]);
