@@ -55,8 +55,8 @@ public class PolacaInversaManager {
                 cont++;
                 break;
             case "ALLEQUAL":
-                System.out.println("tope de pila "+allequal.peek());
-                System.out.println("tam "+allequal.size());
+                //System.out.println("tope de pila "+allequal.peek());
+                //System.out.println("tam "+allequal.size());
                 while (allequal.size()!=0){
                     lista.add(allequal.pop());
                     String aux = allequal.pop();
