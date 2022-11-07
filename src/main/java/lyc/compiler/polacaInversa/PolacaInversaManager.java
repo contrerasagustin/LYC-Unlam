@@ -49,14 +49,14 @@ public class PolacaInversaManager {
                 pilaM.add(elemento);
                 break;
             case "COMPONENT":
-                lista.add("@aux"+cont);
-                allequal.add("@aux"+cont);
+                lista.add("_aux"+cont);
+                allequal.add("_aux"+cont);
                 lista.add(":=");
                 cont++;
                 break;
             case "ALLEQUAL":
-                System.out.println("tope de pila "+allequal.peek());
-                System.out.println("tam "+allequal.size());
+//                System.out.println("tope de pila "+allequal.peek());
+//                System.out.println("tam "+allequal.size());
                 while (allequal.size()!=0){
                     lista.add(allequal.pop());
                     String aux = allequal.pop();

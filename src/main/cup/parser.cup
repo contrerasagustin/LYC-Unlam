@@ -117,184 +117,218 @@ non terminal subcomponent;
 // Start Symbol Definition
 start with program;
 
-program ::= block  {:System.out.println("End");  /*polacaInversa.mostrar();*/  :};
+program ::= block {:
+//  System.out.println("End");
+polacaInversa.mostrar();
+:};
 block ::= block sentence;
 block ::= sentence;
 
 
-sentence ::= assignment SEMICOLON{: System.out.println("Assignment"); :};
+sentence ::= assignment SEMICOLON{:
+//    System.out.println("Assignment");
+:};
 
 assignment ::= IDENTIFIER:id ASSIG expression {:
-    System.out.println("Assignment");
+//    System.out.println("Assignment");
     polacaInversa.insertar(id.toString());
     polacaInversa.insertar(":=");
   :};
 expression ::= expression PLUS term {:
-    System.out.println("+");
+//    System.out.println("+");
     polacaInversa.insertar("+");
 :};
 expression ::= expression SUB term {:
-    System.out.println("-");
+//    System.out.println("-");
     polacaInversa.insertar("-");
  :};
-expression ::= term {: System.out.println("Expression = Term"); :};
+expression ::= term {:
+//System.out.println("Expression = Term");
+:};
 term ::= term MULT factor {:
-    System.out.println("*");
+//    System.out.println("*");
     polacaInversa.insertar("*");
  :};
 term ::= term DIV factor {:
     System.out.println("/");
     polacaInversa.insertar("/");
  :};
-term ::= factor {: System.out.println("Term = factor"); :};
+term ::= factor {:
+//System.out.println("Term = factor");
+:};
 
-factor ::= IDENTIFIER:id  {:
-    System.out.println("Id: " + id);
-    polacaInversa.insertar(id.toString());
- :};
-factor ::= constant {: System.out.println("constante"); :};
-factor ::= OPEN_BRACKET expression CLOSE_BRACKET {: System.out.println("Factor = (Expression)"); :};
+factor ::= name;
+
+factor ::= constant {:
+//System.out.println("constante");
+:};
+factor ::= OPEN_BRACKET expression CLOSE_BRACKET {:
+//System.out.println("Factor = (Expression)");
+:};
 
 constant    ::= INTEGER_CONSTANT:intConstant
             {:
             symbolTableManager.add("_"+intConstant, null, intConstant.toString(), null);
             polacaInversa.insertar(intConstant.toString());
-            System.out.println("Constant int: " + intConstant );
+//            System.out.println("Constant int: " + intConstant );
             :};
 constant    ::= FLOAT_CONSTANT:floatConstant
             {:
             symbolTableManager.add("_"+floatConstant, null, floatConstant.toString(), null);
             polacaInversa.insertar(floatConstant.toString());
-             System.out.println("Constant float: " + floatConstant );
+//             System.out.println("Constant float: " + floatConstant );
             :};
 constant    ::= STRING_CONSTANT:stringConstant
             {:
             final String str = stringConstant.toString().replace("\"", "");
             polacaInversa.insertar(str);
             symbolTableManager.addStringConstant(null, str, str.length());
-            System.out.println("Constant string: " + stringConstant );
+//            System.out.println("Constant string: " + stringConstant );
             :};
 
 sentence ::= IF conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
-    System.out.println("if");
+//    System.out.println("if");
     polacaInversa.insertar("UNSTACK");:};
 sentence ::= IF conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET ELSE OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
-    System.out.println("if");
+//    System.out.println("if");
     polacaInversa.insertar("UNSTACK");
   :};
-conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {: System.out.println("and conditional"); polacaInversa.insertar("AND"); :};
-conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {: System.out.println("or conditional"); :};
-conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {: System.out.println("single conditional  not"); :};
-conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {: System.out.println("single conditional"); polacaInversa.insertar("SINGLE");:};
+conditional ::= OPEN_BRACKET condition AND condition CLOSE_BRACKET {:
+//System.out.println("and conditional"); polacaInversa.insertar("AND");
+:};
+conditional ::= OPEN_BRACKET condition OR condition CLOSE_BRACKET {:
+//System.out.println("or conditional");
+:};
+conditional ::= OPEN_BRACKET NOT condition CLOSE_BRACKET {:
+//System.out.println("single conditional  not");
+:};
+conditional ::= OPEN_BRACKET condition CLOSE_BRACKET {:
+//System.out.println("single conditional"); polacaInversa.insertar("SINGLE");
+:};
 
 condition ::= factor EQUAL factor {:
     polacaInversa.insertar("BNE");
-    System.out.println("condition");
+//    System.out.println("condition");
  :};
 
 condition ::= factor DISTINCT factor {:
     polacaInversa.insertar("BEQ");
-    System.out.println("condition");
+//    System.out.println("condition");
  :};
 
 condition ::= factor HIGHER factor {:
     polacaInversa.insertar("BLE");
-    System.out.println("condition");
+//    System.out.println("condition");
  :};
 
 condition ::= factor HIGHER_EQUAL factor {:
     polacaInversa.insertar("BLT");
-    System.out.println("condition");
+//    System.out.println("condition");
  :};
 
  condition ::= factor LOWER factor {:
     polacaInversa.insertar("BGE");
-    System.out.println("condition");
+//    System.out.println("condition");
   :};
 
   condition ::= factor LOWER_EQUAL factor {:
     polacaInversa.insertar("BGT");
-    System.out.println("condition");
+//    System.out.println("condition");
   :};
 
 //
 sentence ::= WRITE OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{:
             polacaInversa.insertar(id.toString());
             polacaInversa.insertar("WRITE");
-            System.out.println("write " + id);
+//            System.out.println("write " + id);
  :};
 sentence ::= WRITE OPEN_BRACKET STRING_CONSTANT:stringConstant CLOSE_BRACKET SEMICOLON{:
             final String str = stringConstant.toString().replace("\"", "");
             polacaInversa.insertar(str);
             polacaInversa.insertar("WRITE");
             symbolTableManager.addStringConstant(null, str, str.length());
-            System.out.println("write: " + stringConstant );
+//            System.out.println("write: " + stringConstant );
  :};
 
 //
 sentence ::= READ OPEN_BRACKET IDENTIFIER:id CLOSE_BRACKET SEMICOLON{:
             polacaInversa.insertar(id.toString());
             polacaInversa.insertar("READ");
-            System.out.println("read");
+//            System.out.println("read");
  :};
 sentence ::= READ OPEN_BRACKET STRING_CONSTANT:stringConstant  CLOSE_BRACKET SEMICOLON{:
             final String str = stringConstant.toString().replace("\"", "");
             polacaInversa.insertar(str);
             polacaInversa.insertar("READ");
             symbolTableManager.addStringConstant(null, str, str.length());
-            System.out.println("read: " + stringConstant );
+//            System.out.println("read: " + stringConstant );
  :};
 
 
-sentence ::= initialization{: System.out.println("initialization"); :};
-initialization ::= INIT OPEN_CURLY_BRACKET declaration_block CLOSE_CURLY_BRACKET{: System.out.println("init"); :};
+sentence ::= initialization{:
+// System.out.println("initialization");
+ :};
+initialization ::= INIT OPEN_CURLY_BRACKET declaration_block CLOSE_CURLY_BRACKET{:
+// System.out.println("init");
+ :};
 declaration_block ::= declaration_block declaration;
 declaration_block ::= declaration;
-declaration ::= name_list TWODOTS type SEMICOLON{: System.out.println("declaration"); :};
+declaration ::= name_list TWODOTS type SEMICOLON{:
+//System.out.println("declaration");
+:};
 name_list ::= name_list COMMA name;
 name_list ::= name;
 name        ::= IDENTIFIER:id
             {:
             this.identifiersList.add(id.toString());
             polacaInversa.insertar(id.toString());
-            System.out.println("Id: " + id);
+//            System.out.println("Id: " + id);
             :};
 
 type        ::= INT
             {:
             symbolTableManager.addIdentifiers(this.identifiersList, DataType.INTEGER);
-            System.out.println("int");
+//            System.out.println("int");
             :};
 type        ::= FLOAT
             {:
             symbolTableManager.addIdentifiers(this.identifiersList, DataType.FLOAT);
-            System.out.println("float");
+//            System.out.println("float");
             :};
 type ::= STRING
             {:
             symbolTableManager.addIdentifiers(this.identifiersList, DataType.STRING);
-            System.out.println("string");
+//            System.out.println("string");
             :};
 sentence ::= WHILE {:polacaInversa.insertar("ET");:} conditional OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
-        System.out.println("while");
+//        System.out.println("while");
         polacaInversa.insertar("BI");:};
 
-sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {: System.out.println("switch"); :};
-sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block defaults CLOSE_CURLY_BRACKET  {: System.out.println("switch con default"); :};
+sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block CLOSE_CURLY_BRACKET {:
+//System.out.println("switch");
+:};
+sentence ::= SWITCH OPEN_BRACKET expression CLOSE_BRACKET OPEN_CURLY_BRACKET cases_block defaults CLOSE_CURLY_BRACKET  {:
+// System.out.println("switch con default"); :};
 cases_block ::= cases_block cases {:polacaInversa.insertar("UNSTACK"); :};
 cases_block ::= cases {:polacaInversa.insertar("UNSTACK");:} ;
-cases ::= CASE constant {:polacaInversa.insertar("BNE");:} TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{: System.out.println("case"); :};
-defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {: System.out.println("default");:};
+cases ::= CASE constant {:polacaInversa.insertar("BNE");:} TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET{:
+//System.out.println("case");
+:};
+defaults ::= DEFAULT TWODOTS OPEN_CURLY_BRACKET block CLOSE_CURLY_BRACKET {:
+//System.out.println("default");
+:};
 //
 
 sentence ::= ALLEQUAL OPEN_BRACKET component_list CLOSE_BRACKET SEMICOLON {:
-    System.out.println("allequal");
+//    System.out.println("allequal");
     polacaInversa.insertar("ALLEQUAL");
     :};
 
 component_list ::= component_list COMMA component;
 component_list ::= component;
-component ::= OPEN_SQUARE_BRACKET subcomponent_list CLOSE_SQUARE_BRACKET{: System.out.println("component");  :};
+component ::= OPEN_SQUARE_BRACKET subcomponent_list CLOSE_SQUARE_BRACKET{:
+//System.out.println("component");
+:};
 subcomponent_list ::= subcomponent_list COMMA subcomponent{: polacaInversa.insertar("COMPONENT"); :};
 subcomponent_list ::= subcomponent {: polacaInversa.insertar("COMPONENT");:};
 subcomponent ::= expression;
@@ -303,21 +337,23 @@ subcomponent ::= expression;
 sentence ::= REPEAT INTEGER_CONSTANT:intConstant {:
     symbolTableManager.add("_"+intConstant, null, intConstant.toString(), null);
     polacaInversa.insertar(intConstant.toString());
-    System.out.println("Constant inttt: " + intConstant );
-    polacaInversa.insertar("@aux");
+//    System.out.println("Constant inttt: " + intConstant );
+    polacaInversa.insertar("_aux");
     polacaInversa.insertar(":=");
     polacaInversa.insertar("RPT");
-    polacaInversa.insertar("@aux");
+    polacaInversa.insertar("_aux");
     polacaInversa.insertar("0");
     polacaInversa.insertar("BNE");
 :} OPEN_BRACKET block CLOSE_BRACKET
 {:
     polacaInversa.insertar("FRPT");
-    polacaInversa.insertar("@aux");
+    polacaInversa.insertar("_aux");
     polacaInversa.insertar("1");
     polacaInversa.insertar("-");
-    polacaInversa.insertar("@aux");
+    polacaInversa.insertar("_aux");
     polacaInversa.insertar(":=");
     polacaInversa.insertar("UNSTACK");
 :}
- SEMICOLON{: System.out.println("repeat inline"); :};
+ SEMICOLON{:
+// System.out.println("repeat inline");
+ :};
