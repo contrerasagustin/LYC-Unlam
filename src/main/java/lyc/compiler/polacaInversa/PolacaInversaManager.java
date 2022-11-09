@@ -20,7 +20,7 @@ public class PolacaInversaManager {
         switch (elemento) {
             case "UNSTACK":
                 lista.set(pila.pop()-1,"#"+(lista.size()+1));
-                if(pilaM.pop()=="AND"){
+                if(pilaM.size()!=0 && pilaM.pop()=="AND"){
                     lista.set(pila.pop()-1,"#"+(lista.size()+1));
                 }
                 break;
