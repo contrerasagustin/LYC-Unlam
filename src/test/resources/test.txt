@@ -1,4 +1,4 @@
-/*init {
+init {
     a1, a2 : Float;
     v1, v2, v3 : Int;
     p1, p2, p3 : String;
@@ -15,6 +15,6 @@ else{
  while ( v3 >>  50 ){
     v2 := v2 + 1 ;
  }
- allequal([100,v2*122],[v2,v3]);
-}*/
+}
+allequal([2,2 + 2],[v1,v2]);
 a := a + 10;
