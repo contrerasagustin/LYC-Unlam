@@ -6,6 +6,7 @@ import lyc.compiler.symbol_table.Symbol;
 import java.util.List;
 import java.util.ArrayList;
 import lyc.compiler.polacaInversa.*;
+import lyc.compiler.asm.*;
 
 class Parser;
 
@@ -14,6 +15,7 @@ action code
      public SymbolTableManager symbolTableManager = new SymbolTableManager();
      public ArrayList<String> identifiersList = new ArrayList();
      public PolacaInversaManager polacaInversa = new PolacaInversaManager();
+     public AssemblerCodeManager gestorAssembler = new AssemblerCodeManager();
 
 
 :}
@@ -26,6 +28,11 @@ parser code
     public ArrayList<String> getListaPolacaInversa() {
         return action_obj.polacaInversa.getLista();
     }
+
+    public ArrayList<String> getInstrucciones(){
+        return action_obj.gestorAssembler.getInstrucciones();
+    }
+
 :}
 
 // Terminals
@@ -117,7 +124,7 @@ non terminal subcomponent;
 // Start Symbol Definition
 start with program;
 
-program ::= block  {:System.out.println("End");  /*polacaInversa.mostrar();*/  :};
+program ::= block  {:System.out.println("End");  gestorAssembler.generarAssembler(getSymbolList() ,getListaPolacaInversa()); :};
 block ::= block sentence;
 block ::= sentence;
 
