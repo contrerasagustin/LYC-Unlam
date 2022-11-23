@@ -16,7 +16,9 @@ public class AssemblerCodeManager {
 
     public void generarAssembler(List<Symbol> TablaDeSimbolos , ArrayList<String> polacaInversa){
 
-        Stack<String> pila  = new Stack<String>();
+        Stack<String> pilaOperandos  = new Stack<String>();
+        Stack<String> pilaEtiquetas  = new Stack<String>();
+
         ArrayList<String> codigoProgramador = new ArrayList<String>();
 
 
@@ -40,12 +42,19 @@ public class AssemblerCodeManager {
 
         //codigo del programador
         int cantVariablesAuxiliares = 0;
+        int cantEtiquetas = 0;
+        int nroCelda = 1;
+        int nroCeldaSalto = 0;
         for(String celda : polacaInversa){
+                if(nroCelda == nroCeldaSalto){
+                    codigoProgramador.add(pilaEtiquetas.pop() + ":");
+//                    System.out.println("ENTRAAA" + nroCelda + " - " + nroCeldaSalto);
+                }
                 switch (celda){
                     case ":=":
                     {
-                        String op2 = pila.pop();
-                        String op1 = pila.pop();
+                        String op2 = pilaOperandos.pop();
+                        String op1 = pilaOperandos.pop();
                         codigoProgramador.add("FLD " + op1);
                         codigoProgramador.add("FSTP " + op2);
                         codigoProgramador.add("");
@@ -53,8 +62,8 @@ public class AssemblerCodeManager {
                     }
                     case "+":
                     {
-                        String op2 = pila.pop();
-                        String op1 = pila.pop();
+                        String op2 = pilaOperandos.pop();
+                        String op1 = pilaOperandos.pop();
                         String varAux = "@aux" + (cantVariablesAuxiliares+1);
                         cantVariablesAuxiliares++;
                         codigoProgramador.add("FLD " + op1);
@@ -62,13 +71,13 @@ public class AssemblerCodeManager {
                         codigoProgramador.add("FADD");
                         codigoProgramador.add("FSTP " + varAux);
                         codigoProgramador.add("");
-                        pila.add(varAux);
+                        pilaOperandos.add(varAux);
                         break;
                     }
                     case "-":
                     {
-                        String op2 = pila.pop();
-                        String op1 = pila.pop();
+                        String op2 = pilaOperandos.pop();
+                        String op1 = pilaOperandos.pop();
                         String varAux = "@aux" + (cantVariablesAuxiliares+1);
                         cantVariablesAuxiliares++;
                         codigoProgramador.add("FLD " + op1);
@@ -76,13 +85,13 @@ public class AssemblerCodeManager {
                         codigoProgramador.add("FSUB");
                         codigoProgramador.add("FSTP " + varAux);
                         codigoProgramador.add("");
-                        pila.add(varAux);
+                        pilaOperandos.add(varAux);
                         break;
                     }
                     case "/":
                     {
-                        String op2 = pila.pop();
-                        String op1 = pila.pop();
+                        String op2 = pilaOperandos.pop();
+                        String op1 = pilaOperandos.pop();
                         String varAux = "@aux" + (cantVariablesAuxiliares+1);
                         cantVariablesAuxiliares++;
                         codigoProgramador.add("FLD " + op1);
@@ -90,13 +99,13 @@ public class AssemblerCodeManager {
                         codigoProgramador.add("FDIV");
                         codigoProgramador.add("FSTP " + varAux);
                         codigoProgramador.add("");
-                        pila.add(varAux);
+                        pilaOperandos.add(varAux);
                         break;
                     }
                     case "*":
                     {
-                        String op2 = pila.pop();
-                        String op1 = pila.pop();
+                        String op2 = pilaOperandos.pop();
+                        String op1 = pilaOperandos.pop();
                         String varAux = "@aux" + (cantVariablesAuxiliares+1);
                         cantVariablesAuxiliares++;
                         codigoProgramador.add("FLD " + op1);
@@ -104,14 +113,87 @@ public class AssemblerCodeManager {
                         codigoProgramador.add("FMUL");
                         codigoProgramador.add("FSTP " + varAux);
                         codigoProgramador.add("");
-                        pila.add(varAux);
+                        pilaOperandos.add(varAux);
+                        break;
+                    }
+                    case "CMP":
+                    {
+                        String op2 = pilaOperandos.pop();
+                        String op1 = pilaOperandos.pop();
+                        codigoProgramador.add("FLD " + op1);
+                        codigoProgramador.add("FLD " + op2);
+                        codigoProgramador.add("FXCH");
+                        codigoProgramador.add("FCOMP");
+                        codigoProgramador.add("FSTSW AX");
+                        codigoProgramador.add("SAHF");
+                        break;
+                    }
+                    case "BLE":
+                    {
+                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                        cantEtiquetas++;
+                        pilaEtiquetas.add(etiqueta);
+                        codigoProgramador.add("BLE " + etiqueta);
+                        codigoProgramador.add("");
+                        break;
+                    }
+                    case "BGE":
+                    {
+                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                        cantEtiquetas++;
+                        pilaEtiquetas.add(etiqueta);
+                        codigoProgramador.add("BGE " + etiqueta);
+                        codigoProgramador.add("");
+                        break;
+                    }
+                    case "BLT":
+                    {
+                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                        cantEtiquetas++;
+                        pilaEtiquetas.add(etiqueta);
+                        codigoProgramador.add("BLT " + etiqueta);
+                        codigoProgramador.add("");
+                        break;
+                    }
+                    case "BGT":
+                    {
+                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                        cantEtiquetas++;
+                        pilaEtiquetas.add(etiqueta);
+                        codigoProgramador.add("BGT " + etiqueta);
+                        codigoProgramador.add("");
+                        break;
+                    }
+                    case "BEQ":
+                    {
+                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                        cantEtiquetas++;
+                        pilaEtiquetas.add(etiqueta);
+                        codigoProgramador.add("BEQ " + etiqueta);
+                        codigoProgramador.add("");
+                        break;
+                    }
+                    case "BNE":
+                    {
+                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                        cantEtiquetas++;
+                        pilaEtiquetas.add(etiqueta);
+                        codigoProgramador.add("BNE " + etiqueta);
+                        codigoProgramador.add("");
                         break;
                     }
                     default: {
-                        pila.add(celda);
+                        if(celda.startsWith("#")){
+                            nroCeldaSalto = Integer.parseInt(celda.substring(1, 3));
+//                            System.out.println("STACKKKKKKKKKKK " + nroCeldaSalto);
+                        }
+                        else{
+                            pilaOperandos.add(celda);
+                        }
                         break;
                     }
                 }
+                nroCelda++;
             }
 
         ///hago esto para que no se me rompa la logica agregando el codigo de la cabecera y etc
@@ -119,11 +201,19 @@ public class AssemblerCodeManager {
             instrucciones.add(instruccion);
         }
 
-//        System.out.println("**************** MOSTRANDO PILA /**********************");
-//        while(!pila.isEmpty()){
-//            System.out.println(pila.pop());
-//        }
-//        System.out.println("**************** FIN DE LA PILA /**********************");
+        System.out.println("**************** MOSTRANDO POLACA /**********************");
+        int i = 1;
+        for(String celda : polacaInversa){
+            System.out.println(i + " - " + celda);
+            i++;
+        }
+        System.out.println("**************** FIN DE LA POLACA /**********************");
+
+        System.out.println("**************** MOSTRANDO PILA /**********************");
+        while(!pilaOperandos.isEmpty()){
+            System.out.println(pilaOperandos.pop());
+        }
+        System.out.println("**************** FIN DE LA PILA /**********************");
 
         //pie de fin de codigo
         instrucciones.add("\nMOV AX, 4C00h");
@@ -136,6 +226,7 @@ public class AssemblerCodeManager {
         ///mostrando TODAS las instrucciones (incluye cabecera y etc)
         for(String instruccion : instrucciones){
             System.out.println(instruccion);
+
         }
     }
 
