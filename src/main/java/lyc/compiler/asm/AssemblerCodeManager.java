@@ -2,9 +2,7 @@ package lyc.compiler.asm;
 
 import lyc.compiler.symbol_table.Symbol;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class AssemblerCodeManager {
 
@@ -17,7 +15,8 @@ public class AssemblerCodeManager {
     public void generarAssembler(List<Symbol> TablaDeSimbolos , ArrayList<String> polacaInversa){
 
         Stack<String> pilaOperandos  = new Stack<String>();
-        Stack<String> pilaEtiquetas  = new Stack<String>();
+        Queue<String> colaEtiquetas  = new LinkedList<String>();
+        Stack<Integer> pilaNroCelda = new Stack<Integer>();
 
         ArrayList<String> codigoProgramador = new ArrayList<String>();
 
@@ -44,157 +43,176 @@ public class AssemblerCodeManager {
         int cantVariablesAuxiliares = 0;
         int cantEtiquetas = 0;
         int nroCelda = 1;
-        int nroCeldaSalto = 0;
         for(String celda : polacaInversa){
-                if(nroCelda == nroCeldaSalto){
-                    codigoProgramador.add(pilaEtiquetas.pop() + ":");
-//                    System.out.println("ENTRAAA" + nroCelda + " - " + nroCeldaSalto);
-                }
-                switch (celda){
-                    case ":=":
-                    {
-                        String op2 = pilaOperandos.pop();
-                        String op1 = pilaOperandos.pop();
-                        codigoProgramador.add("FLD " + op1);
-                        codigoProgramador.add("FSTP " + op2);
-                        codigoProgramador.add("");
-                        break;
-                    }
-                    case "+":
-                    {
-                        String op2 = pilaOperandos.pop();
-                        String op1 = pilaOperandos.pop();
-                        String varAux = "@aux" + (cantVariablesAuxiliares+1);
-                        cantVariablesAuxiliares++;
-                        codigoProgramador.add("FLD " + op1);
-                        codigoProgramador.add("FLD " + op2);
-                        codigoProgramador.add("FADD");
-                        codigoProgramador.add("FSTP " + varAux);
-                        codigoProgramador.add("");
-                        pilaOperandos.add(varAux);
-                        break;
-                    }
-                    case "-":
-                    {
-                        String op2 = pilaOperandos.pop();
-                        String op1 = pilaOperandos.pop();
-                        String varAux = "@aux" + (cantVariablesAuxiliares+1);
-                        cantVariablesAuxiliares++;
-                        codigoProgramador.add("FLD " + op1);
-                        codigoProgramador.add("FLD " + op2);
-                        codigoProgramador.add("FSUB");
-                        codigoProgramador.add("FSTP " + varAux);
-                        codigoProgramador.add("");
-                        pilaOperandos.add(varAux);
-                        break;
-                    }
-                    case "/":
-                    {
-                        String op2 = pilaOperandos.pop();
-                        String op1 = pilaOperandos.pop();
-                        String varAux = "@aux" + (cantVariablesAuxiliares+1);
-                        cantVariablesAuxiliares++;
-                        codigoProgramador.add("FLD " + op1);
-                        codigoProgramador.add("FLD " + op2);
-                        codigoProgramador.add("FDIV");
-                        codigoProgramador.add("FSTP " + varAux);
-                        codigoProgramador.add("");
-                        pilaOperandos.add(varAux);
-                        break;
-                    }
-                    case "*":
-                    {
-                        String op2 = pilaOperandos.pop();
-                        String op1 = pilaOperandos.pop();
-                        String varAux = "@aux" + (cantVariablesAuxiliares+1);
-                        cantVariablesAuxiliares++;
-                        codigoProgramador.add("FLD " + op1);
-                        codigoProgramador.add("FLD " + op2);
-                        codigoProgramador.add("FMUL");
-                        codigoProgramador.add("FSTP " + varAux);
-                        codigoProgramador.add("");
-                        pilaOperandos.add(varAux);
-                        break;
-                    }
-                    case "CMP":
-                    {
-                        String op2 = pilaOperandos.pop();
-                        String op1 = pilaOperandos.pop();
-                        codigoProgramador.add("FLD " + op1);
-                        codigoProgramador.add("FLD " + op2);
-                        codigoProgramador.add("FXCH");
-                        codigoProgramador.add("FCOMP");
-                        codigoProgramador.add("FSTSW AX");
-                        codigoProgramador.add("SAHF");
-                        break;
-                    }
-                    case "BLE":
-                    {
-                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                        cantEtiquetas++;
-                        pilaEtiquetas.add(etiqueta);
-                        codigoProgramador.add("BLE " + etiqueta);
-                        codigoProgramador.add("");
-                        break;
-                    }
-                    case "BGE":
-                    {
-                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                        cantEtiquetas++;
-                        pilaEtiquetas.add(etiqueta);
-                        codigoProgramador.add("BGE " + etiqueta);
-                        codigoProgramador.add("");
-                        break;
-                    }
-                    case "BLT":
-                    {
-                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                        cantEtiquetas++;
-                        pilaEtiquetas.add(etiqueta);
-                        codigoProgramador.add("BLT " + etiqueta);
-                        codigoProgramador.add("");
-                        break;
-                    }
-                    case "BGT":
-                    {
-                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                        cantEtiquetas++;
-                        pilaEtiquetas.add(etiqueta);
-                        codigoProgramador.add("BGT " + etiqueta);
-                        codigoProgramador.add("");
-                        break;
-                    }
-                    case "BEQ":
-                    {
-                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                        cantEtiquetas++;
-                        pilaEtiquetas.add(etiqueta);
-                        codigoProgramador.add("BEQ " + etiqueta);
-                        codigoProgramador.add("");
-                        break;
-                    }
-                    case "BNE":
-                    {
-                        String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                        cantEtiquetas++;
-                        pilaEtiquetas.add(etiqueta);
-                        codigoProgramador.add("BNE " + etiqueta);
-                        codigoProgramador.add("");
-                        break;
-                    }
-                    default: {
-                        if(celda.startsWith("#")){
-                            nroCeldaSalto = Integer.parseInt(celda.substring(1, 3));
-//                            System.out.println("STACKKKKKKKKKKK " + nroCeldaSalto);
-                        }
-                        else{
-                            pilaOperandos.add(celda);
-                        }
-                        break;
-                    }
-                }
-                nroCelda++;
+
+            if(!pilaNroCelda.isEmpty() && nroCelda == pilaNroCelda.peek()){
+                System.out.println("ENTRAAA" + nroCelda);
+                codigoProgramador.add(colaEtiquetas.remove() + ":");
+                pilaNroCelda.pop();
             }
+            switch (celda){
+                case ":=":
+                {
+                    String op2 = pilaOperandos.pop();
+                    String op1 = pilaOperandos.pop();
+                    codigoProgramador.add("FLD " + op1);
+                    codigoProgramador.add("FSTP " + op2);
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "+":
+                {
+                    String op2 = pilaOperandos.pop();
+                    String op1 = pilaOperandos.pop();
+                    String varAux = "@aux" + (cantVariablesAuxiliares+1);
+                    cantVariablesAuxiliares++;
+                    codigoProgramador.add("FLD " + op1);
+                    codigoProgramador.add("FLD " + op2);
+                    codigoProgramador.add("FADD");
+                    codigoProgramador.add("FSTP " + varAux);
+                    codigoProgramador.add("");
+                    pilaOperandos.add(varAux);
+                    break;
+                }
+                case "-":
+                {
+                    String op2 = pilaOperandos.pop();
+                    String op1 = pilaOperandos.pop();
+                    String varAux = "@aux" + (cantVariablesAuxiliares+1);
+                    cantVariablesAuxiliares++;
+                    codigoProgramador.add("FLD " + op1);
+                    codigoProgramador.add("FLD " + op2);
+                    codigoProgramador.add("FSUB");
+                    codigoProgramador.add("FSTP " + varAux);
+                    codigoProgramador.add("");
+                    pilaOperandos.add(varAux);
+                    break;
+                }
+                case "/":
+                {
+                    String op2 = pilaOperandos.pop();
+                    String op1 = pilaOperandos.pop();
+                    String varAux = "@aux" + (cantVariablesAuxiliares+1);
+                    cantVariablesAuxiliares++;
+                    codigoProgramador.add("FLD " + op1);
+                    codigoProgramador.add("FLD " + op2);
+                    codigoProgramador.add("FDIV");
+                    codigoProgramador.add("FSTP " + varAux);
+                    codigoProgramador.add("");
+                    pilaOperandos.add(varAux);
+                    break;
+                }
+                case "*":
+                {
+                    String op2 = pilaOperandos.pop();
+                    String op1 = pilaOperandos.pop();
+                    String varAux = "@aux" + (cantVariablesAuxiliares+1);
+                    cantVariablesAuxiliares++;
+                    codigoProgramador.add("FLD " + op1);
+                    codigoProgramador.add("FLD " + op2);
+                    codigoProgramador.add("FMUL");
+                    codigoProgramador.add("FSTP " + varAux);
+                    codigoProgramador.add("");
+                    pilaOperandos.add(varAux);
+                    break;
+                }
+                case "CMP":
+                {
+                    String op2 = pilaOperandos.pop();
+                    String op1 = pilaOperandos.pop();
+                    codigoProgramador.add("FLD " + op1);
+                    codigoProgramador.add("FLD " + op2);
+                    codigoProgramador.add("FXCH");
+                    codigoProgramador.add("FCOMP");
+                    codigoProgramador.add("FSTSW AX");
+                    codigoProgramador.add("SAHF");
+                    break;
+                }
+                case "BLE":
+                {
+                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                    cantEtiquetas++;
+                    colaEtiquetas.add(etiqueta);
+                    codigoProgramador.add("BLE " + etiqueta);
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "BGE":
+                {
+                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                    cantEtiquetas++;
+                    colaEtiquetas.add(etiqueta);
+                    codigoProgramador.add("BGE " + etiqueta);
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "BLT":
+                {
+                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                    cantEtiquetas++;
+                    colaEtiquetas.add(etiqueta);
+                    codigoProgramador.add("BLT " + etiqueta);
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "BGT":
+                {
+                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                    cantEtiquetas++;
+                    colaEtiquetas.add(etiqueta);
+                    codigoProgramador.add("BGT " + etiqueta);
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "BEQ":
+                {
+                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                    cantEtiquetas++;
+                    colaEtiquetas.add(etiqueta);
+                    codigoProgramador.add("BEQ " + etiqueta);
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "BNE":
+                {
+                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                    cantEtiquetas++;
+                    colaEtiquetas.add(etiqueta);
+                    codigoProgramador.add("BNE " + etiqueta);
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "BI":
+                {
+                    codigoProgramador.add("BI " + colaEtiquetas.remove());
+                    codigoProgramador.add("");
+                    break;
+                }
+                case "ET":
+                {
+                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
+                    cantEtiquetas++;
+                    colaEtiquetas.add(etiqueta);
+                    codigoProgramador.add(etiqueta + ":");
+                    codigoProgramador.add("");
+                    break;
+                }
+                default: {
+                    if(celda.startsWith("#")){
+                        int nroCeldaSalto = Integer.parseInt(celda.substring(1));
+                        if(nroCeldaSalto >= nroCelda){
+                            pilaNroCelda.add(nroCeldaSalto);
+                            System.out.println("STACKKKKKKKKKKK " + nroCeldaSalto);
+                        }
+                    }
+                    else{
+                        pilaOperandos.add(celda);
+                    }
+                    break;
+                }
+            }
+            nroCelda++;
+        }
 
         ///hago esto para que no se me rompa la logica agregando el codigo de la cabecera y etc
         for(String instruccion : codigoProgramador){
