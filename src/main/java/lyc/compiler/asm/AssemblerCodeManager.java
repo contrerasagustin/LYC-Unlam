@@ -46,7 +46,7 @@ public class AssemblerCodeManager {
         for(String celda : polacaInversa){
 
             if(!pilaNroCelda.isEmpty() && nroCelda == pilaNroCelda.peek()){
-                System.out.println("ENTRAAA" + nroCelda);
+//                System.out.println("ENTRAAA" + nroCelda);
                 codigoProgramador.add(colaEtiquetas.remove() + ":");
                 pilaNroCelda.pop();
             }
@@ -202,7 +202,7 @@ public class AssemblerCodeManager {
                         int nroCeldaSalto = Integer.parseInt(celda.substring(1));
                         if(nroCeldaSalto >= nroCelda){
                             pilaNroCelda.add(nroCeldaSalto);
-                            System.out.println("STACKKKKKKKKKKK " + nroCeldaSalto);
+//                            System.out.println("STACKKKKKKKKKKK " + nroCeldaSalto);
                         }
                     }
                     else{

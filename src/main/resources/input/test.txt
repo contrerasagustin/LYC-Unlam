@@ -1,20 +1,20 @@
 init {
-    a1, a2 : Float;
+    a, b : Float;
     v1, v2, v3 : Int;
     p1, p2, p3 : String;
 }
 v3 := 100;
-write ("ingrese un numero");
-read  (v1);
-write ("ingrese otro numero");
-read (v2);
-if ( v1 >= v3 ){
-    repeat 10  (write("hola"););
+
+/*esto es un comentario*/
+
+if( a >= b ){
+    v1 := v1 + 1;
 }
-else{
- while ( v3 >>  50 ){
-    v2 := v2 + 1 ;
- }
-}
-allequal([2,2 + 2],[v1,v2]);
+
 a := a + 10;
+
+while ( a << v3 ) {
+    a := a + v1;
+}
+
+b := v1 + v2;
