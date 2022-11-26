@@ -104,9 +104,9 @@ public class LexerTest {
     }
 
     @Test
-    public void validNegativeIntegerConstantValueZero() {
+    public void validNegativeIntegerConstantValue() {
         assertDoesNotThrow(() -> {
-            scan("%d".formatted(0));
+            scan("%d".formatted(-1));
             nextToken();
         });
     }
@@ -126,62 +126,48 @@ public class LexerTest {
             nextToken();
         });
     }
+
+    @Test
+    public void invalidPositiveFloatConstantValue() {
+        assertThrows(InvalidFloatException.class, () -> {
+            scan("9223372036854775807.0");
+            nextToken();
+        });
+    }
 //
-//    @Test
-//    public void invalidPositiveFloatConstantValue() {
-//        assertThrows(InvalidFloatException.class, () -> {
-//            scan("%f".formatted(9223372036854775807.0));
-//            nextToken();
-//        });
-//    }
+    @Test
+    public void invalidNegativeFloatConstantValue() {
+        assertThrows(InvalidFloatException.class, () -> {
+            scan("-9223372036854775807.0");
+            nextToken();
+        });
+    }
 //
-//    @Test
-//    public void invalidNegativeFloatConstantValue() {
-//        assertThrows(InvalidFloatException.class, () -> {
-//            scan("%f".formatted(-9223372036854775807.0));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validNegativeFloatConstantMinValue() {
-//        assertDoesNotThrow(() -> {
-//            scan("%f".formatted(FLOAT_RANGE_NEG + 0.0));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validNegativeFloatConstantMinValuePlusOne() {
-//        assertDoesNotThrow(() -> {
-//            scan("%f".formatted(FLOAT_RANGE_NEG + 1.0));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validNegativeFloatConstantValueZero() {
-//        assertDoesNotThrow(() -> {
-//            scan("%f".formatted(0.0));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validPositiveFloatConstantMaxValue() {
-//        assertDoesNotThrow(() -> {
-//            scan("%f".formatted(FLOAT_RANGE_POS + 0.0));
-//            nextToken();
-//        });
-//    }
-//
-//    @Test
-//    public void validPositiveFloatConstantMaxValueMinusOne() {
-//        assertDoesNotThrow(() -> {
-//            scan("%f".formatted(FLOAT_RANGE_POS - 1.0));
-//            nextToken();
-//        });
-//    }
+    @Test
+    public void validNegativeFloatConstantMinValue() {
+        assertDoesNotThrow(() -> {
+            scan("-2147483648.0");
+            nextToken();
+        });
+    }
+
+    @Test
+    public void validNegativeFloatConstantMinValuePlusOne() {
+        assertDoesNotThrow(() -> {
+            scan("-2147483647.0");
+            nextToken();
+        });
+    }
+
+
+    @Test
+    public void validPositiveFloatConstantMaxValue() {
+        assertDoesNotThrow(() -> {
+            scan("0.0");
+            nextToken();
+        });
+    }
+
 
     @Test
     public void validPositiveFloatLeftDot() {

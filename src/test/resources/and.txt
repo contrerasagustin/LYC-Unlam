@@ -4,6 +4,9 @@ c := 2;
 
 if (a >> b and c >> b)
 {
+    /*
     write("a es mas grande que b");
     write("y c es mas grande que b");
+    */
+    a := a + 1;
 }

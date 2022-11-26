@@ -91,7 +91,8 @@ NumberOptionalConstant = {Digit}*
 
 // DataTypeValues
 FloatConstant = {Sub}? ({NumberConstant} {Dot} {NumberOptionalConstant} | {NumberOptionalConstant} {Dot} {NumberConstant})
-IntegerConstant = {Sub}? {NumberConstant}
+IntegerConstant = {Sub}? {NumberConstant} | {NumberConstant}
+//IntegerConstant = "-" {Digit}+ | {Digit}+
 StringConstant =  \"({Letter}|{NumberConstant}|" ")*\"
 
 %%

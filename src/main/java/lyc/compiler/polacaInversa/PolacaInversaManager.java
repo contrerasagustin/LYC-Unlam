@@ -20,7 +20,8 @@ public class PolacaInversaManager {
         switch (elemento) {
             case "UNSTACK":
                 lista.set(pila.pop()-1,"#"+(lista.size()+1));
-                if(pilaM.size()!=0 && pilaM.pop()=="AND"){
+                if(pilaM.size()!=0 && (pilaM.peek() == "AND" ||  pilaM.peek() == "OR") ){
+                    pilaM.pop();
                     lista.set(pila.pop()-1,"#"+(lista.size()+1));
                 }
                 break;
@@ -45,6 +46,7 @@ public class PolacaInversaManager {
                 lista.add("#"+pila.pop());
                 break;
             case "AND":
+            case "OR":
             case "SINGLE":
                 pilaM.add(elemento);
                 break;
@@ -67,7 +69,7 @@ public class PolacaInversaManager {
                         lista.add(aux);
                     }
                     lista.add("CMP");
-                    lista.add("BNI");
+                    lista.add("BNE");
                     lista.add("#");
                     pila.add(lista.size());
                     pilaM.add("AND");

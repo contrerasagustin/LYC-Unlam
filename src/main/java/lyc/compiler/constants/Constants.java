@@ -8,8 +8,8 @@ public final class Constants {
 
     // Floats of 32 bits -> From -2147483648 to 2147483647
     public static final int  RANGE_THIRTY_TWO_BITS = (int)  (Math.pow(2, 32));
-    public static final int  FLOAT_RANGE_NEG = RANGE_THIRTY_TWO_BITS * -1;
-    public static final int  FLOAT_RANGE_POS = RANGE_THIRTY_TWO_BITS - 1;
+    public static final int  FLOAT_RANGE_NEG = (RANGE_THIRTY_TWO_BITS+1) * -1 ;
+    public static final int  FLOAT_RANGE_POS = RANGE_THIRTY_TWO_BITS;
 
     public static final int STRING_RANGE = 40;
 

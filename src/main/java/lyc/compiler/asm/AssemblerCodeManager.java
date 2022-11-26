@@ -46,7 +46,6 @@ public class AssemblerCodeManager {
         for(String celda : polacaInversa){
 
             if(!pilaNroCelda.isEmpty() && nroCelda == pilaNroCelda.peek()){
-//                System.out.println("ENTRAAA" + nroCelda);
                 codigoProgramador.add(colaEtiquetas.remove() + ":");
                 pilaNroCelda.pop();
             }
@@ -129,56 +128,16 @@ public class AssemblerCodeManager {
                     break;
                 }
                 case "BLE":
-                {
-                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                    cantEtiquetas++;
-                    colaEtiquetas.add(etiqueta);
-                    codigoProgramador.add("BLE " + etiqueta);
-                    codigoProgramador.add("");
-                    break;
-                }
                 case "BGE":
-                {
-                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                    cantEtiquetas++;
-                    colaEtiquetas.add(etiqueta);
-                    codigoProgramador.add("BGE " + etiqueta);
-                    codigoProgramador.add("");
-                    break;
-                }
                 case "BLT":
-                {
-                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                    cantEtiquetas++;
-                    colaEtiquetas.add(etiqueta);
-                    codigoProgramador.add("BLT " + etiqueta);
-                    codigoProgramador.add("");
-                    break;
-                }
                 case "BGT":
-                {
-                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                    cantEtiquetas++;
-                    colaEtiquetas.add(etiqueta);
-                    codigoProgramador.add("BGT " + etiqueta);
-                    codigoProgramador.add("");
-                    break;
-                }
                 case "BEQ":
-                {
-                    String etiqueta = "etiqueta" + (cantEtiquetas+1);
-                    cantEtiquetas++;
-                    colaEtiquetas.add(etiqueta);
-                    codigoProgramador.add("BEQ " + etiqueta);
-                    codigoProgramador.add("");
-                    break;
-                }
                 case "BNE":
                 {
                     String etiqueta = "etiqueta" + (cantEtiquetas+1);
                     cantEtiquetas++;
                     colaEtiquetas.add(etiqueta);
-                    codigoProgramador.add("BNE " + etiqueta);
+                    codigoProgramador.add(celda + " " + etiqueta);
                     codigoProgramador.add("");
                     break;
                 }
@@ -219,19 +178,19 @@ public class AssemblerCodeManager {
             instrucciones.add(instruccion);
         }
 
-        System.out.println("**************** MOSTRANDO POLACA /**********************");
-        int i = 1;
-        for(String celda : polacaInversa){
-            System.out.println(i + " - " + celda);
-            i++;
-        }
-        System.out.println("**************** FIN DE LA POLACA /**********************");
+//        System.out.println("**************** MOSTRANDO POLACA /**********************");
+//        int i = 1;
+//        for(String celda : polacaInversa){
+//            System.out.println(i + " - " + celda);
+//            i++;
+//        }
+//        System.out.println("**************** FIN DE LA POLACA /**********************");
 
-        System.out.println("**************** MOSTRANDO PILA /**********************");
-        while(!pilaOperandos.isEmpty()){
-            System.out.println(pilaOperandos.pop());
-        }
-        System.out.println("**************** FIN DE LA PILA /**********************");
+//        System.out.println("**************** MOSTRANDO PILA /**********************");
+//        while(!pilaOperandos.isEmpty()){
+//            System.out.println(pilaOperandos.pop());
+//        }
+//        System.out.println("**************** FIN DE LA PILA /**********************");
 
         //pie de fin de codigo
         instrucciones.add("\nMOV AX, 4C00h");
